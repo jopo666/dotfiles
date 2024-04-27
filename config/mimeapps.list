@@ -1,0 +1,4 @@
+[Default Applications]
+application/pdf=org.pwmt.zathura.desktop
+inode/directory=Thunar.desktop
+image/png=org.xfce.ristretto.desktop;

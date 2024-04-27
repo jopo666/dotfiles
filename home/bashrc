@@ -1,0 +1,66 @@
+#!/bin/usr/env bash
+if [[ ! $- == *i* ]]; then
+	return
+fi
+
+# Exports
+export PS1="\w $ "
+export TERM="xterm-256color"
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="nvim"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export CDPATH=".:$HOME:$HOME/code:$HOME/work"
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+export HISTCONTROL=ignoreboth
+export PROMPT_COMMAND="history -a"
+export TZ="Europe/Helsinki"
+
+# Tool exports
+export POETRY_VIRTUALENVS_IN_PROJECT=true
+
+# Extend path
+[ -d "$HOME/.cargo/" ] && export PATH="$PATH:$HOME/.cargo/bin"
+[ -d "$HOME/zig" ] && export PATH="$PATH:$HOME/zig"
+[ -d "$HOME/.local/share/nvim/mason" ] && export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
+[ -d "/usr/local/go" ] && export PATH="$PATH:/usr/local/go/bin"
+
+# Sources
+[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
+[ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
+[ -f "$HOME/.workstuff" ] && source "$HOME/.workstuff"
+
+# Aliases
+alias v="nvim"
+alias vd="nvim ."
+alias lg="lazygit"
+alias cat="batcat --plain --plain"
+alias l="ls --color -lhv --group-directories-first"
+alias ll="ls --color -lhva --group-directories-first"
+alias dstop="docker ps -aq | xargs -r docker stop"
+alias dpurge="docker ps -aq | xargs -r docker stop | xargs -r docker rm && docker volume prune -af && docker system prune -af"
+alias gr="grep --color=auto -i"
+alias cl="wl-copy"
+alias c="clear"
+alias py='python'
+alias pya='source .venv/bin/activate'
+alias pyd='deactivate'
+alias n="nnn -d"
+alias ..="cd .."
+
+# Bindings
+bind "\C-p":history-search-backward
+bind "\C-n":history-search-forward
+bind "\C-k":forward-word
+bind "\C-j":backward-word
+bind '"\C-i":menu-complete'
+bind '"\e[Z":menu-complete-backward'
+bind "set show-all-if-ambiguous on"
+bind "set menu-complete-display-prefix on"
+
+# Run window manager
+if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+	exec sway
+fi
