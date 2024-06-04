@@ -32,6 +32,11 @@ export POETRY_VIRTUALENVS_IN_PROJECT=true
 [ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
 [ -f "$HOME/.workstuff" ] && source "$HOME/.workstuff"
 
+# Homebrew
+if [ -d /home/linuxbrew ]; then
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
+
 # Aliases
 alias v="nvim"
 alias vd="nvim ."
