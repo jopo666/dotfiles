@@ -18,14 +18,11 @@ export HISTCONTROL=ignoreboth
 export PROMPT_COMMAND="history -a"
 export TZ="Europe/Helsinki"
 
-# Tool exports
-export POETRY_VIRTUALENVS_IN_PROJECT=true
-
 # Extend path
 [ -d "$HOME/.cargo/" ] && export PATH="$PATH:$HOME/.cargo/bin"
-[ -d "$HOME/zig" ] && export PATH="$PATH:$HOME/zig"
 [ -d "$HOME/.local/share/nvim/mason" ] && export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
 [ -d "/usr/local/go" ] && export PATH="$PATH:/usr/local/go/bin"
+[ -d "/usr/local/zig" ] && export PATH="$PATH:/usr/local/zig/bin"
 
 # Sources
 [ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
@@ -41,12 +38,16 @@ fi
 alias v="nvim"
 alias vd="nvim ."
 alias lg="lazygit"
-alias cat="batcat --plain --plain"
+if [ -f /usr/bin/batcat ]; then
+	alias cat="batcat --plain --plain"
+elif [ -f /usr/bin/bat ]; then
+	alias cat="bat --plain --plain"
+fi
 alias l="ls --color -lhv --group-directories-first"
 alias ll="ls --color -lhva --group-directories-first"
 alias dstop="docker ps -aq | xargs -r docker stop"
 alias dpurge="docker ps -aq | xargs -r docker stop | xargs -r docker rm && docker volume prune -af && docker system prune -af"
-alias gr="grep --color=auto -i"
+alias grep="grep --color=auto -i"
 alias cl="wl-copy"
 alias c="clear"
 alias py='python'
@@ -64,6 +65,12 @@ bind '"\C-i":menu-complete'
 bind '"\e[Z":menu-complete-backward'
 bind "set show-all-if-ambiguous on"
 bind "set menu-complete-display-prefix on"
+
+# Dumb shit
+command_not_found_handle() {
+	echo "I have no fucking idea what '$1' is?"
+	return 127
+}
 
 # Run window manager
 if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
