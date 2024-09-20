@@ -17,7 +17,8 @@ link_file() {
 		rm "$dst"
 		ln -sv "$src" "$dst"
 	elif [ -e "$dst" ]; then
-		printf "File %s exists, do you want to overwrite it? [y/N] " "$dst"
+		diff -y "$src" "$dst" || true
+		echo -n "File '$dst' exists, do you want to overwrite it? [y/N] "
 		read -r response
 		if [ "$response" != "y" ]; then
 			return
@@ -47,11 +48,3 @@ done
 for src in "$PWD"/bin/*; do
 	link_file "$src" "$HOME/.local/bin/$(basename "$src")"
 done
-
-PROFILE=$(find ~/.mozilla/firefox/ -maxdepth 1 -type d | grep default-release$)
-if [ -n "$PROFILE" ]; then
-	mkdir -pv "$PROFILE/chrome"
-	ln -sfv "$PWD/userChrome.css" "$PROFILE/chrome/userChrome.css"
-else
-	echo "ERROR: Could not find Firefox profile"
-fi
