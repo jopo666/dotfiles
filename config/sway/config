@@ -48,7 +48,7 @@ bindsym $alt+t layout toggle tabbed split
 bindsym $alt+shift+f floating toggle
 bindsym $alt+shift+s sticky toggle
 bindsym $alt+d exec $menu
-bindsym $alt+y exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date + 'screenshot_%Y%m%d-%H%M%S.png')
+bindsym $alt+y exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y%m%d-%H%M%S.png')
 bindsym $alt+space exec swaymsg input "type:keyboard" xkb_layout us
 bindsym $alt+shift+space exec swaymsg input "type:keyboard" xkb_layout fi
 bindsym $alt+shift+x exec dunstctl close-all
