@@ -71,8 +71,6 @@ vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, si
 -- Don't yank when pasting in visual mode
 vim.keymap.set("x", "p", [["_dp]])
 vim.keymap.set("x", "P", [["_dP]])
--- Sort selection
-vim.keymap.set("x", "gs", ":sort<cr>", { desc = "Sort selection" })
 -- Toggle quickfix
 vim.keymap.set("n", "<leader>q", function()
     for _, win in pairs(vim.fn.getwininfo()) do
@@ -123,9 +121,20 @@ require("lazy").setup({
     { "echasnovski/mini.jump",       opts = {} }, -- improved fFtT
     {
         "echasnovski/mini.splitjoin",
-        opts = { mappings = { toggle = '<leader>j' } }
+        opts = { mappings = { toggle = "<leader>j" } }
     },
-    { "max397574/better-escape.nvim", opts = {} },
+    {
+        "max397574/better-escape.nvim",
+        event = "InsertEnter",
+        opts = {}
+    },
+    {
+        "folke/flash.nvim",
+        opts = {},
+        keys = {
+            { "<c-s>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+        },
+    },
     {
         "zbirenbaum/copilot.lua",
         event = "InsertEnter",
@@ -135,7 +144,7 @@ require("lazy").setup({
             copilot.setup {
                 suggestion = {
                     enabled = true,
-                    auto_trigger = false,
+                    auto_trigger = true,
                     hide_during_completion = false,
                     debounce = 75,
                     keymap = {
@@ -179,7 +188,7 @@ require("lazy").setup({
             vim.keymap.set("x", "s", require("substitute").visual, { noremap = true })
         end,
     },
-    { "kylechui/nvim-surround",       opts = {} },
+    { "kylechui/nvim-surround", opts = {} },
     {
         "mbbill/undotree",
         keys = { { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle undotree" } }
@@ -192,9 +201,14 @@ require("lazy").setup({
                 columns = {},
                 constrain_cursor = "editable",
                 keymaps = {
+                    ["g?"] = "actions.show_help",
+                    ["<CR>"] = "actions.select",
                     ["<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
                     ["<C-s>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
+                    ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
+                    ["-"] = "actions.parent",
                 },
+                use_default_keymaps = false,
                 view_options = {
                     show_hidden = true,
                 },
@@ -223,38 +237,38 @@ require("lazy").setup({
         "lewis6991/gitsigns.nvim",
         opts = {
             signs = {
-                add          = { text = '+' },
-                change       = { text = '~' },
-                delete       = { text = 'x' },
-                topdelete    = { text = 'x' },
-                changedelete = { text = '~' },
-                untracked    = { text = '┆' },
+                add          = { text = "+" },
+                change       = { text = "~" },
+                delete       = { text = "x" },
+                topdelete    = { text = "x" },
+                changedelete = { text = "~" },
+                untracked    = { text = "┆" },
             },
             signs_staged = {
-                add          = { text = '+' },
-                change       = { text = '~' },
-                delete       = { text = 'x' },
-                topdelete    = { text = 'x' },
-                changedelete = { text = '~' },
-                untracked    = { text = '┆' },
+                add          = { text = "+" },
+                change       = { text = "~" },
+                delete       = { text = "x" },
+                topdelete    = { text = "x" },
+                changedelete = { text = "~" },
+                untracked    = { text = "┆" },
             },
             on_attach = function(bufnr)
-                local gitsigns = require('gitsigns')
+                local gitsigns = require("gitsigns")
                 vim.keymap.set("n", "]h", gitsigns.next_hunk, { buffer = bufnr, desc = "Next hunk" })
                 vim.keymap.set("n", "[h", gitsigns.prev_hunk, { buffer = bufnr, desc = "Previous hunk" })
-                vim.keymap.set('n', '<leader>hs', gitsigns.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
-                vim.keymap.set('v', '<leader>hs',
-                    function() gitsigns.stage_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+                vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
+                vim.keymap.set("v", "<leader>hs",
+                    function() gitsigns.stage_hunk { vim.fn.line("."), vim.fn.line("v") } end,
                     { buffer = bufnr, desc = "Stage hunk" })
-                vim.keymap.set('n', '<leader>hr', gitsigns.reset_hunk, { buffer = bufnr, desc = "Reset hunk" })
-                vim.keymap.set('v', '<leader>hr',
-                    function() gitsigns.reset_hunk { vim.fn.line('.'), vim.fn.line('v') } end,
+                vim.keymap.set("n", "<leader>hr", gitsigns.reset_hunk, { buffer = bufnr, desc = "Reset hunk" })
+                vim.keymap.set("v", "<leader>hr",
+                    function() gitsigns.reset_hunk { vim.fn.line("."), vim.fn.line("v") } end,
                     { buffer = bufnr, desc = "Reset hunk" })
-                vim.keymap.set('n', '<leader>hu', gitsigns.undo_stage_hunk, { buffer = bufnr, desc = "Undo stage hunk" })
-                vim.keymap.set('n', '<leader>hb', function() gitsigns.blame_line { full = true } end,
+                vim.keymap.set("n", "<leader>hu", gitsigns.undo_stage_hunk, { buffer = bufnr, desc = "Undo stage hunk" })
+                vim.keymap.set("n", "<leader>hb", function() gitsigns.blame_line { full = true } end,
                     { buffer = bufnr, desc = "Hunk blame" })
-                vim.keymap.set('n', '<leader>hd', gitsigns.diffthis, { buffer = bufnr, desc = "Diff this" })
-                vim.keymap.set('n', '<leader>td', gitsigns.toggle_deleted, { buffer = bufnr, desc = "Toggle deleted" })
+                vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { buffer = bufnr, desc = "Diff this" })
+                vim.keymap.set("n", "<leader>td", gitsigns.toggle_deleted, { buffer = bufnr, desc = "Toggle deleted" })
             end,
         }
     },
@@ -291,7 +305,7 @@ require("lazy").setup({
             sections = {
                 lualine_a = { "mode" },
                 lualine_b = { "diagnostics" },
-                lualine_c = { { 'buffers', symbols = { modified = '', alternate_file = '', directory = '' } } },
+                lualine_c = { { "buffers", symbols = { modified = "", alternate_file = "", directory = "" } } },
                 lualine_x = { "diff", "branch" },
                 lualine_y = {},
                 lualine_z = { "location" },
@@ -346,18 +360,19 @@ require("lazy").setup({
                     },
                 },
             })
-            require 'treesitter-context'.setup {
+            require "treesitter-context".setup {
                 max_lines = 4,
                 multiline_threshold = 1,
-                trim_scope = 'outer',
+                trim_scope = "outer",
             }
             vim.keymap.set("n", "<leader>tc", function()
-                require('treesitter-context').toggle()
+                require("treesitter-context").toggle()
             end, { desc = "Toggle context" })
         end,
     },
     {
         "hrsh7th/nvim-cmp",
+        event = "InsertEnter",
         dependencies = {
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
@@ -379,7 +394,7 @@ require("lazy").setup({
                 end,
                 snippet = {
                     expand = function(args)
-                        require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
+                        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
@@ -419,6 +434,7 @@ require("lazy").setup({
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
+                    { name = "copilot",  index = 1 },
                     { name = "nvim_lsp", index = 1 },
                     { name = "luasnip",  index = 1 },
                     { name = "path",     index = 1 },
