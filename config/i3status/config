@@ -4,10 +4,7 @@ general {
 }
 
 order += "wireless _first_"
-order += "disk /"
-order += "memory"
 order += "volume master"
-order += "load"
 order += "battery all"
 order += "tztime local"
 

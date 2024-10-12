@@ -3,44 +3,55 @@ if [[ ! $- == *i* ]]; then
 	return
 fi
 
-# Exports
 export PS1="\w $ "
 export TERM="xterm-256color"
-export PATH="$HOME/.local/bin:$PATH"
 export EDITOR="nvim"
+export VISUAL="nvim"
+
+# History
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+export HISTFILE="$HOME/.history"
+export HISTCONTROL=ignoreboth
+export PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+shopt -s histappend
+
+# Path
+export PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.local/share/nvim/mason" ] && export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
+
+# XDG directories
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
-export CDPATH=".:$HOME:$HOME/code:$HOME/work"
-export HISTSIZE=10000
-export HISTFILESIZE=10000
-export HISTCONTROL=ignoreboth
-export PROMPT_COMMAND="history -a"
-export TZ="Europe/Helsinki"
-
-# Extend path
-[ -d "$HOME/.cargo/" ] && export PATH="$PATH:$HOME/.cargo/bin"
-[ -d "$HOME/.local/share/nvim/mason" ] && export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
-[ -d "/usr/local/go" ] && export PATH="$PATH:/usr/local/go/bin"
-[ -d "/usr/local/zig" ] && export PATH="$PATH:/usr/local/zig/bin"
-
-# Sources
-[ -f /usr/share/bash-completion/bash_completion ] && source /usr/share/bash-completion/bash_completion
-[ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && source /usr/share/doc/fzf/examples/key-bindings.bash
-[ -f "$HOME/.workstuff" ] && source "$HOME/.workstuff"
+export XDG_DESKTOP_DIR="$HOME/desktop"
+export XDG_DOCUMENTS_DIR="$HOME/documents"
+export XDG_DOWNLOAD_DIR="$HOME/downloads"
+export XDG_MUSIC_DIR="$HOME/music"
+export XDG_PICTURES_DIR="$HOME/pictures"
+export XDG_PUBLICSHARE_DIR="$HOME/public"
+export XDG_TEMPLATES_DIR="$HOME/templates"
+export XDG_VIDEOS_DIR="$HOME/videos"
 
 # Homebrew
 if [ -d /home/linuxbrew ]; then
-	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+	export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+	export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+	export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+	export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}"
+	[ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
+	export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}"
+	[ -z "${XDG_DATA_DIRS-}" ] || export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:${XDG_DATA_DIRS-}"
+	[ -f $HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh ] && source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 fi
 
 # Aliases
+alias ai="ollama run llama3.2"
 alias v="nvim"
+alias vi="nvim"
 alias vd="nvim ."
 alias lg="lazygit"
-if [ -f /usr/bin/batcat ]; then
-	alias cat="batcat --plain --plain"
-elif [ -f /usr/bin/bat ]; then
+if type bat &>/dev/null; then
 	alias cat="bat --plain --plain"
 fi
 alias l="ls --color -lhv --group-directories-first"
@@ -48,29 +59,39 @@ alias ll="ls --color -lhva --group-directories-first"
 alias dstop="docker ps -aq | xargs -r docker stop"
 alias dpurge="docker ps -aq | xargs -r docker stop | xargs -r docker rm && docker volume prune -af && docker system prune -af"
 alias grep="grep --color=auto -i"
-alias cl="wl-copy"
+alias yank="wl-copy"
 alias c="clear"
 alias py='python'
-alias pya='source .venv/bin/activate'
-alias pyd='deactivate'
-alias n="nnn -d"
+alias pa='source .venv/bin/activate'
+alias pd='deactivate'
 alias ..="cd .."
+
+if type fzf &>/dev/null; then
+	eval "$(fzf --bash)"
+	export FZF_DEFAULT_OPTS="--reverse --border=none --no-separator --no-scrollbar --info=hidden"
+	__edit_file() {
+		filename=$(fzf --preview-window=right:70%:border-none --preview "bat --style=numbers --color=always {} ")
+		[ -n "$filename" ] && {
+			nvim "$filename"
+			history -s "nvim \"$filename\""
+		}
+	}
+	bind -x '"\C-f":"__edit_file"'
+fi
 
 # Bindings
 bind "\C-p":history-search-backward
 bind "\C-n":history-search-forward
-bind "\C-k":forward-word
-bind "\C-j":backward-word
+bind -x '"\C-g":"clear"'
 bind '"\C-i":menu-complete'
 bind '"\e[Z":menu-complete-backward'
 bind "set show-all-if-ambiguous on"
 bind "set menu-complete-display-prefix on"
 
-# Dumb shit
-command_not_found_handle() {
-	echo "I have no fucking idea what '$1' is?"
-	return 127
-}
+if [[ $- == *i* ]]; then
+	stty susp undef
+	bind '"\C-z":" fg\015"'
+fi
 
 # Run window manager
 if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
