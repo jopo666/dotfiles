@@ -1,5 +1,0 @@
-if [ -f "$HOME/.xprofile" ]; then
-    source "$HOME/.xprofile"
-fi
-
-i3
