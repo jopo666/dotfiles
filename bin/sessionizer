@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-SELECTED=$(find ~/code -mindepth 1 -maxdepth 1 -type d | fzf)
+SELECTED=$(find ~/src -mindepth 1 -maxdepth 1 -type d | fzf)
 
 if [[ -z "$SELECTED" ]]; then
 	exit 0
