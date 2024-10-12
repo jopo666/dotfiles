@@ -1,8 +1,8 @@
 set $alt Mod1
 set $super Mod4
 set $term foot
-set $browser google-chrome
-set $menu dmenu_run
+set $browser chromium
+set $menu j4-dmenu-desktop
 set $lock 'swaylock -f -u -i $HOME/.config/sway/lockscreen.png'
 set $screenon 'swaymsg "output * power on"'
 set $screenoff 'swaymsg "output * power off"'
@@ -25,33 +25,38 @@ set $ws_slack 5:slack
 set $ws_misc 6:misc
 
 assign [app_id="firefox"] $ws_web
+assign [class="Chromium"] $ws_web
+assign [class="Google-chrome"] $ws_web
 assign [app_id="foot"] $ws_term
 assign [app_id="zathura"] $ws_pdf
-assign [class="Google-chrome"] $ws_web
 assign [class="Code"] $ws_code
 assign [class="Slack"] $ws_slack
+for_window [app_id="thunar"] floating enable
 
 workspace $ws_term
 
 bindsym $alt+Return exec $term -e tmux new -As scratch
 bindsym $super+Return exec $browser
 
-bindsym $alt+q kill
-bindsym $alt+f fullscreen toggle
-bindsym $alt+i resize grow width 10 px or 10 ppt
-bindsym $alt+shift+i resize shrink width 10 px or 10 ppt
+
+bindsym $alt+shift+q kill
+bindsym $alt+shift+f fullscreen toggle
+bindsym $alt+shift+g floating toggle
+bindsym $alt+shift+s sticky toggle
 bindsym $alt+k workspace next
 bindsym $alt+j workspace prev
-bindsym $alt+p focus left
-bindsym $alt+n focus right
-bindsym $alt+t layout toggle tabbed split
-bindsym $alt+shift+f floating toggle
-bindsym $alt+shift+s sticky toggle
-bindsym $alt+d exec $menu
-bindsym $alt+y exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y%m%d-%H%M%S.png')
+bindsym $alt+shift+k move container to workspace next, workspace next
+bindsym $alt+shift+j move container to workspace prev, workspace prev
+bindsym $alt+shift+h focus left
+bindsym $alt+shift+j focus down
+bindsym $alt+shift+k focus up
+bindsym $alt+shift+l focus right
+bindsym $alt+shift+t layout toggle tabbed split
+bindsym $alt+shift+y exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y%m%d-%H:%M:%S.png')
+bindsym $alt+shift+x exec dunstctl close-all
+bindsym $alt+shift+d exec $menu
 bindsym $alt+space exec swaymsg input "type:keyboard" xkb_layout us
 bindsym $alt+shift+space exec swaymsg input "type:keyboard" xkb_layout fi
-bindsym $alt+shift+x exec dunstctl close-all
 bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
 bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 bindsym --locked XF86AudioRaiseVolume exec --no-startup-id pulsemixer --change-volume +10
@@ -118,10 +123,10 @@ client.urgent           #1D2021 #1D2021 #EA6962 #1D2021   #1D2021
 client.placeholder      #1D2021 #1D2021 #504945 #1D2021   #1D2021
 client.background       #1D2021
 
-font pango:monospace 9
+font pango:Hack Nerd Font 8
 floating_modifier $alt normal
 default_border pixel 2
-workspace_layout tabbed
+workspace_layout default
 hide_edge_borders --i3 smart
 titlebar_border_thickness 0
 titlebar_padding 0
