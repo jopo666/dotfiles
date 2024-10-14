@@ -1,4 +1,4 @@
-#!/bin/usr/env bash
+#!/usr/bin/env bash
 if [[ ! $- == *i* ]]; then
 	return
 fi
@@ -46,7 +46,12 @@ if [ -d /home/linuxbrew ]; then
 fi
 
 # Aliases
-alias ai="ollama run llama3.2"
+if command nvidia-smi &>/dev/null; then
+	alias ai="ollama run llama3.1"
+else
+	alias ai="ollama run llama3.2"
+fi
+
 alias v="nvim"
 alias vi="nvim"
 alias vd="nvim ."
