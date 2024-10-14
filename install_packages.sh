@@ -41,7 +41,6 @@ PACKAGES_BREW=(
 	fd
 	fzf
 	git
-	gitui
 	go
 	htop
 	jq
