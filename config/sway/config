@@ -35,7 +35,7 @@ for_window [app_id="thunar"] floating enable
 
 workspace $ws_term
 
-bindsym $alt+Return exec $term -e tmux new -As scratch
+bindsym $alt+Return exec $term
 bindsym $super+Return exec $browser
 
 
@@ -48,8 +48,6 @@ bindsym $alt+j workspace prev
 bindsym $alt+shift+k move container to workspace next, workspace next
 bindsym $alt+shift+j move container to workspace prev, workspace prev
 bindsym $alt+shift+h focus left
-bindsym $alt+shift+j focus down
-bindsym $alt+shift+k focus up
 bindsym $alt+shift+l focus right
 bindsym $alt+shift+t layout toggle tabbed split
 bindsym $alt+shift+y exec slurp | grim -g - $(xdg-user-dir PICTURES)/$(date +'screenshot_%Y%m%d-%H:%M:%S.png')
