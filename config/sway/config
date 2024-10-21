@@ -1,7 +1,8 @@
 set $alt Mod1
 set $super Mod4
 set $term foot
-set $browser chromium
+# set $browser chromium
+set $browser google-chrome
 set $menu j4-dmenu-desktop
 set $lock 'swaylock -f -u -i $HOME/.config/sway/lockscreen.png'
 set $screenon 'swaymsg "output * power on"'
@@ -35,9 +36,8 @@ for_window [app_id="thunar"] floating enable
 
 workspace $ws_term
 
-bindsym $alt+Return exec $term
+bindsym $alt+Return exec $term -e tmux new -As scratch
 bindsym $super+Return exec $browser
-
 
 bindsym $alt+shift+q kill
 bindsym $alt+shift+f fullscreen toggle
