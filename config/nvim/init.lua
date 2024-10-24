@@ -135,36 +135,36 @@ require("lazy").setup({
             { "<c-s>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
         },
     },
-    {
-        "zbirenbaum/copilot.lua",
-        event = "InsertEnter",
-        config = function()
-            local copilot = require("copilot")
-            local suggestion = require("copilot.suggestion")
-            copilot.setup {
-                suggestion = {
-                    enabled = true,
-                    auto_trigger = true,
-                    hide_during_completion = false,
-                    debounce = 75,
-                    keymap = {
-                        accept = false,
-                        next = "<M-]>",
-                        prev = "<M-[>",
-                    },
-                },
-                filetypes = {},
-            }
-            vim.keymap.set("i", "<c-space>", function()
-                if not suggestion.is_visible() then
-                    suggestion.next()
-                else
-                    suggestion.accept()
-                end
-            end, { desc = "Accept copilot suggestion" })
-            vim.keymap.set("n", "<leader>tp", suggestion.toggle_auto_trigger, { desc = "Toggle copilot" })
-        end,
-    },
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     event = "InsertEnter",
+    --     config = function()
+    --         local copilot = require("copilot")
+    --         local suggestion = require("copilot.suggestion")
+    --         copilot.setup {
+    --             suggestion = {
+    --                 enabled = true,
+    --                 auto_trigger = true,
+    --                 hide_during_completion = false,
+    --                 debounce = 75,
+    --                 keymap = {
+    --                     accept = false,
+    --                     next = "<M-]>",
+    --                     prev = "<M-[>",
+    --                 },
+    --             },
+    --             filetypes = {},
+    --         }
+    --         vim.keymap.set("i", "<c-space>", function()
+    --             if not suggestion.is_visible() then
+    --                 suggestion.next()
+    --             else
+    --                 suggestion.accept()
+    --             end
+    --         end, { desc = "Accept copilot suggestion" })
+    --         vim.keymap.set("n", "<leader>tp", suggestion.toggle_auto_trigger, { desc = "Toggle copilot" })
+    --     end,
+    -- },
     {
         "shellRaining/hlchunk.nvim",
         opts = {
@@ -570,12 +570,12 @@ require("lazy").setup({
                     return { lsp_fallback = true }
                 end,
             }
-            -- vim.api.nvim_create_user_command("FormatDisable", function()
-            --     vim.g.disable_autoformat = true
-            -- end, { desc = "Disable format on save" })
-            -- vim.api.nvim_create_user_command("FormatEnable", function()
-            --     vim.g.disable_autoformat = false
-            -- end, { desc = "Enable format on save" })
+            vim.api.nvim_create_user_command("FormatDisable", function()
+                vim.g.disable_autoformat = true
+            end, { desc = "Disable format on save" })
+            vim.api.nvim_create_user_command("FormatEnable", function()
+                vim.g.disable_autoformat = false
+            end, { desc = "Enable format on save" })
         end,
     },
     {
