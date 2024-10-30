@@ -840,14 +840,16 @@ require("lazy").setup({
             vim.api.nvim_create_autocmd("LspAttach", {
                 group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
                 callback = function(event)
-                    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf })
-                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf })
-                    vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = event.buf })
-                    vim.keymap.set("n", "gI", vim.lsp.buf.implementation, { buffer = event.buf })
-                    vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, { buffer = event.buf })
-                    vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { buffer = event.buf })
-                    vim.keymap.set("n", "ge", vim.lsp.buf.rename, { buffer = event.buf })
-                    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf })
+                    vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, desc = "Goto declaration" })
+                    vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf, desc = "Goto definition" })
+                    vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = event.buf, desc = "Show references" })
+                    vim.keymap.set("n", "gI", vim.lsp.buf.implementation,
+                        { buffer = event.buf, desc = "Goto implementation" })
+                    vim.keymap.set("n", "gt", vim.lsp.buf.type_definition,
+                        { buffer = event.buf, desc = "Goto type definition" })
+                    vim.keymap.set("n", "ga", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Code action" })
+                    vim.keymap.set("n", "ge", vim.lsp.buf.rename, { desc = "Rename variable", buffer = event.buf })
+                    vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = event.buf, desc = "Hover" })
                 end,
             })
         end
