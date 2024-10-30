@@ -3,16 +3,19 @@
 --- OPTIONS ---
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+
 vim.opt.breakindent = true    -- indent wrapped lines
 vim.opt.colorcolumn = "80"    -- show 80 char column
 vim.opt.completeopt = { "menuone", "noinsert", "noselect" }
 vim.opt.cursorline = true     -- show current line
+vim.opt.inccommand = 'split'  -- show also off-screen edits live
 vim.opt.expandtab = true      -- use spaces instead of tabs
 vim.opt.ignorecase = true     -- ignore case
 vim.opt.mouse = "a"           -- disable temporarily with shift
 vim.opt.number = true         -- show line numbers
 vim.opt.pumheight = 10        -- max completion items
 vim.opt.relativenumber = true -- and relative line numbers
+vim.opt.showmode = false      -- don't show mode
 vim.opt.scrolloff = 8         -- always show some context
 vim.opt.shortmess:append("c") -- don't show completion messages
 vim.opt.signcolumn = "yes"    -- always show sign column
@@ -26,7 +29,6 @@ vim.opt.softtabstop = 4       -- tab width
 vim.opt.termguicolors = true  -- 24-bit RGB colors
 vim.opt.undofile = true       -- persistent undo
 
---- AUTOCOMMANDS ---
 -- Remove trailing whitespace on save
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     pattern = { "*" },
@@ -36,42 +38,65 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
         end
     end,
 })
+
 -- Highlight yanked text
 vim.cmd([[ au TextYankPost * silent! lua vim.highlight.on_yank() ]])
+
 -- Restore cursor position
 vim.cmd([[ autocmd BufReadPost *  if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal! g`\"" | endif ]])
--- Sane formatoptions
-vim.cmd([[ autocmd FileType * set formatoptions-=ro ]])
+
+-- Resize on splits on resize
+vim.cmd([[ autocmd VimResized * wincmd = ]])
+
 -- Filetype specific color columns
 vim.cmd([[ autocmd FileType gitcommit setlocal colorcolumn=50,70 ]])
 vim.cmd([[ autocmd FileType python setlocal colorcolumn=88 ]])
 vim.cmd([[ autocmd FileType lua setlocal colorcolumn=100 ]])
 
---- KEYMAPS ---
+-- Easy exit
 vim.keymap.set("i", "jk", "<esc>")
-vim.keymap.set("i", "<c-h>", "<left>")
-vim.keymap.set("i", "<c-j>", "<down>")
-vim.keymap.set("i", "<c-k>", "<up>")
-vim.keymap.set("i", "<c-l>", "<right>")
+
+-- Smart completion in command mode
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
+
+-- Switch buffers
 vim.keymap.set("n", "<tab>", ":bn<cr>", { desc = "Next buffer", silent = true })
 vim.keymap.set("n", "<s-tab>", ":bp<cr>", { desc = "Previous buffer", silent = true })
+
+-- Center view when scrolling
 vim.keymap.set("n", "<c-d>", "<c-d>zz")
 vim.keymap.set("n", "<c-u>", "<c-u>zz")
--- Disable annoying pageup/pagedown mappings.
+
+-- Disable pageup/pagedown mappings.
 vim.keymap.set({ "i", "n", "v" }, "<pageup>", "<nop>")
 vim.keymap.set({ "i", "n", "v" }, "<pagedown>", "<nop>")
+
 -- Don't jump to next search result
 vim.keymap.set("n", "*", "m`:keepjumps normal! *``<cr>")
 vim.keymap.set("n", "#", "m`:keepjumps normal! #``<cr>")
+
 -- Move by visual lines
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+
 -- Don't yank when pasting in visual mode
 vim.keymap.set("x", "p", [["_dp]])
 vim.keymap.set("x", "P", [["_dP]])
--- Toggle quickfix
+
+-- Clear highlights
+vim.keymap.set("n", "<c-c>", "<cmd>nohlsearch<cr>", { desc = "Clear highlights" })
+
+-- Switch to last buffer.
+vim.keymap.set("n", "<space><space>", "<c-^>", { desc = "Switch buffers" })
+
+-- Sort selection
+vim.keymap.set("v", "gs", ":sort", { desc = "Sort selection" })
+
+-- Make file executable.
+vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>", { desc = "Make file executable" })
+
+-- Toggle quickfix.
 vim.keymap.set("n", "<leader>q", function()
     for _, win in pairs(vim.fn.getwininfo()) do
         if win.quickfix == 1 then
@@ -80,14 +105,18 @@ vim.keymap.set("n", "<leader>q", function()
     end
     vim.cmd("copen")
 end, { desc = "Toggle quickfix" })
--- Clipboard mappings
+
+-- Yank to system clipboard.
 vim.keymap.set({ "n", "x" }, "<leader>y", '"+y', { desc = "Yank to clipboard" })
 vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from clipboard" })
--- Diagnostic mappings
+
+-- Show error in a float
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show error" })
+
+-- List errors in quickfix list.
 vim.keymap.set("n", "<leader>w", vim.diagnostic.setqflist, { desc = "Quickfix errors" })
--- Buffer mappings
-vim.keymap.set("n", "<leader>x", "<cmd>bd<cr>", { desc = "Delete buffer" })
+
+-- Close all other buffers.
 vim.keymap.set("n", "<leader>o", function()
     local current = vim.api.nvim_get_current_buf()
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
@@ -96,126 +125,79 @@ vim.keymap.set("n", "<leader>o", function()
         end
     end
 end, { desc = "Close other buffers" })
--- Misc mappings
-vim.keymap.set("n", "<leader>h", "<cmd>nohlsearch<cr>", { desc = "Clear search" })
-vim.keymap.set("n", "<space><space>", "<c-^>", { desc = "Switch buffers" })
-vim.keymap.set("n", "<leader>X", "<cmd>!chmod +x %<cr>", { desc = "Make file executable" })
 
---- PLUGINS ---
+-- Setup lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({ "git", "clone", "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath, })
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
-
 require("lazy").setup({
-    { "tpope/vim-commentary" },                   -- comment/uncomment
-    { "tpope/vim-repeat" },                       -- repeat plugin commands
-    { "tpope/vim-rsi" },                          -- readline in insert mode
-    { "tpope/vim-sleuth" },                       -- auto set shiftwidth and expandtab
-    { "tpope/vim-unimpaired" },                   -- extra movements
-    { "echasnovski/mini.ai",         opts = {} }, -- extra text objects
-    { "echasnovski/mini.cursorword", opts = {} }, -- highlight word under cursor
-    { "echasnovski/mini.jump",       opts = {} }, -- improved fFtT
-    {
-        "echasnovski/mini.splitjoin",
-        opts = { mappings = { toggle = "<leader>j" } }
-    },
+    -- Comment out code
+    { "tpope/vim-commentary" },
+
+    -- Repeat plugin commands
+    { "tpope/vim-repeat" },
+
+    -- Readline in insert mode
+    { "tpope/vim-rsi" },
+
+    -- Automatically set tabwidth for filetypes
+    { "tpope/vim-sleuth" },
+
+    -- Extra text objects
+    { "echasnovski/mini.ai",        opts = {} },
+
+    -- Add/remove/change surrounds
+    { "kylechui/nvim-surround",     opts = {} },
+
+    -- Extra movements
+    { "echasnovski/mini.bracketed", opts = {} },
+
+    -- Don't block if waiting for next key
     {
         "max397574/better-escape.nvim",
         event = "InsertEnter",
         opts = {}
     },
-    {
-        "folke/flash.nvim",
-        opts = {},
-        keys = {
-            { "<c-s>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-        },
-    },
-    -- {
-    --     "zbirenbaum/copilot.lua",
-    --     event = "InsertEnter",
-    --     config = function()
-    --         local copilot = require("copilot")
-    --         local suggestion = require("copilot.suggestion")
-    --         copilot.setup {
-    --             suggestion = {
-    --                 enabled = true,
-    --                 auto_trigger = true,
-    --                 hide_during_completion = false,
-    --                 debounce = 75,
-    --                 keymap = {
-    --                     accept = false,
-    --                     next = "<M-]>",
-    --                     prev = "<M-[>",
-    --                 },
-    --             },
-    --             filetypes = {},
-    --         }
-    --         vim.keymap.set("i", "<c-space>", function()
-    --             if not suggestion.is_visible() then
-    --                 suggestion.next()
-    --             else
-    --                 suggestion.accept()
-    --             end
-    --         end, { desc = "Accept copilot suggestion" })
-    --         vim.keymap.set("n", "<leader>tp", suggestion.toggle_auto_trigger, { desc = "Toggle copilot" })
-    --     end,
-    -- },
+
+    -- Add indent guides
     {
         "shellRaining/hlchunk.nvim",
         opts = {
             indent = {
                 enable = true,
                 chars = { "┆" },
+                exclude_filetypes = {
+                    oil = true,
+                }
             }
         }
     },
-    {
-        "gbprod/substitute.nvim",
-        config = function()
-            require("substitute").setup({
-                highlight_substituted_text = {
-                    enabled = false
-                }
-            })
-            vim.keymap.set("n", "s", require("substitute").operator, { noremap = true })
-            vim.keymap.set("n", "ss", require("substitute").line, { noremap = true })
-            vim.keymap.set("n", "S", require("substitute").eol, { noremap = true })
-            vim.keymap.set("x", "s", require("substitute").visual, { noremap = true })
-        end,
-    },
-    { "kylechui/nvim-surround", opts = {} },
-    {
-        "mbbill/undotree",
-        keys = { { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle undotree" } }
 
-    },
+    -- Jump around!
     {
-        "stevearc/oil.nvim",
-        config = function()
-            require("oil").setup {
-                columns = {},
-                constrain_cursor = "editable",
-                keymaps = {
-                    ["g?"] = "actions.show_help",
-                    ["<CR>"] = "actions.select",
-                    ["<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
-                    ["<C-s>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
-                    ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
-                    ["-"] = "actions.parent",
-                },
-                use_default_keymaps = false,
-                view_options = {
-                    show_hidden = true,
-                },
-            }
-            vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Browse files" })
-        end
+        "folke/flash.nvim",
+        opts = {},
+        keys = {
+            {
+                "<c-s>",
+                mode = { "n", "x", "o" },
+                function() require("flash").jump() end,
+                desc = "Flash"
+            },
+        },
     },
+
+    -- Split/tmux navigation
     {
         "christoomey/vim-tmux-navigator",
         cmd = {
@@ -223,16 +205,42 @@ require("lazy").setup({
             "TmuxNavigateDown",
             "TmuxNavigateUp",
             "TmuxNavigateRight",
-            "TmuxNavigatePrevious",
         },
         keys = {
-            { "<c-h>",  "<cmd><C-U>TmuxNavigateLeft<cr>" },
-            { "<c-j>",  "<cmd><C-U>TmuxNavigateDown<cr>" },
-            { "<c-k>",  "<cmd><C-U>TmuxNavigateUp<cr>" },
-            { "<c-l>",  "<cmd><C-U>TmuxNavigateRight<cr>" },
-            { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
+            { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+            { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+            { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+            { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
         },
     },
+
+    -- Undo tree
+    {
+        "mbbill/undotree",
+        keys = { { "<leader>u", "<cmd>UndotreeToggle<cr>", desc = "Toggle undotree" } }
+    },
+
+    -- Colorscheme(s)
+    {
+        "zenbones-theme/zenbones.nvim",
+        dependencies = "rktjmp/lush.nvim",
+        lazy = false,
+        priority = 1000,
+        config = function() vim.cmd.colorscheme('zenbones') end
+    },
+
+    -- {
+    --     "sainnhe/gruvbox-material",
+    --     config = function()
+    --         vim.g.gruvbox_material_background = "soft"
+    --         vim.g.gruvbox_material_better_performance = true
+    --         vim.g.gruvbox_material_disable_italic_comment = true
+    --         vim.cmd [[ colorscheme gruvbox-material ]]
+    --     end
+    -- },
+
+
+    -- Version control
     {
         "lewis6991/gitsigns.nvim",
         opts = {
@@ -254,6 +262,7 @@ require("lazy").setup({
             },
             on_attach = function(bufnr)
                 local gitsigns = require("gitsigns")
+                require("which-key").add({ { '<leader>h', group = 'Hunk...' } })
                 vim.keymap.set("n", "]h", gitsigns.next_hunk, { buffer = bufnr, desc = "Next hunk" })
                 vim.keymap.set("n", "[h", gitsigns.prev_hunk, { buffer = bufnr, desc = "Previous hunk" })
                 vim.keymap.set("n", "<leader>hs", gitsigns.stage_hunk, { buffer = bufnr, desc = "Stage hunk" })
@@ -268,31 +277,54 @@ require("lazy").setup({
                 vim.keymap.set("n", "<leader>hb", function() gitsigns.blame_line { full = true } end,
                     { buffer = bufnr, desc = "Hunk blame" })
                 vim.keymap.set("n", "<leader>hd", gitsigns.diffthis, { buffer = bufnr, desc = "Diff this" })
-                vim.keymap.set("n", "<leader>td", gitsigns.toggle_deleted, { buffer = bufnr, desc = "Toggle deleted" })
+                vim.keymap.set("n", "<leader>hD", gitsigns.toggle_deleted, { buffer = bufnr, desc = "Toggle deleted" })
             end,
         }
     },
+
+    -- Better netrw
     {
-        "nvim-telescope/telescope.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        keys = {
-            { "<c-p>",     "<cmd>Telescope find_files theme=dropdown previewer=false<cr>",                desc = "Find files" },
-            { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find theme=dropdown previewer=false<cr>", desc = "Fuzzy find buffer" },
-            { "<leader>g", "<cmd>Telescope live_grep<cr>",                                                desc = "Live grep" },
-            { "<leader>s", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",                            desc = "Find LSP symbols" },
-            { "<leader>?", "<cmd>Telescope help_tags<cr>",                                                desc = "Find help tags" },
-            { "<leader>k", "<cmd>Telescope keymaps<cr>",                                                  desc = "Find keymaps" },
-        }
-    },
-    {
-        "sainnhe/gruvbox-material",
+        "stevearc/oil.nvim",
         config = function()
-            vim.g.gruvbox_material_background = "soft"
-            vim.g.gruvbox_material_better_performance = true
-            vim.g.gruvbox_material_disable_italic_comment = true
-            vim.cmd [[ colorscheme gruvbox-material ]]
+            require("oil").setup {
+                columns = {},
+                skip_confirm_for_simple_edits = false,
+                constrain_cursor = "editable",
+                keymaps = {
+                    ["g?"] = "actions.show_help",
+                    ["<CR>"] = "actions.select",
+                    ["<C-v>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+                    ["<C-s>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
+                    ["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
+                    ["-"] = "actions.parent",
+                },
+                use_default_keymaps = false,
+                view_options = {
+                    show_hidden = true,
+                },
+            }
+            vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Browse files" })
         end
     },
+
+    -- Split and join blocks
+    {
+        "echasnovski/mini.splitjoin",
+        opts = {
+            mappings = {
+                toggle = ""
+            }
+        },
+        keys = {
+            {
+                "<leader>j",
+                function() require("mini.splitjoin").toggle() end,
+                desc = "Toggle split/join",
+            }
+        },
+    },
+
+    -- Statusline
     {
         "nvim-lualine/lualine.nvim",
         opts = {
@@ -303,15 +335,86 @@ require("lazy").setup({
                 component_separators = ""
             },
             sections = {
-                lualine_a = { "mode" },
-                lualine_b = { "diagnostics" },
-                lualine_c = { { "buffers", symbols = { modified = "", alternate_file = "", directory = "" } } },
-                lualine_x = { "diff", "branch" },
+                lualine_a = {},
+                lualine_b = {},
+                lualine_c = { "mode", "filename" },
+                lualine_x = { "diagnostics", "branch", "location" },
                 lualine_y = {},
-                lualine_z = { "location" },
+                lualine_z = {},
             },
         }
     },
+
+    -- Substitute with register
+    {
+        "gbprod/substitute.nvim",
+        config = function()
+            require("substitute").setup({
+                highlight_substituted_text = {
+                    enabled = false
+                }
+            })
+            vim.keymap.set("n", "s", require("substitute").operator, { noremap = true })
+            vim.keymap.set("n", "ss", require("substitute").line, { noremap = true })
+            vim.keymap.set("n", "S", require("substitute").eol, { noremap = true })
+            vim.keymap.set("x", "s", require("substitute").visual, { noremap = true })
+        end,
+    },
+
+    -- Show keymaps
+    {
+        'folke/which-key.nvim',
+        event = 'VimEnter',
+        opts = {
+            preset = 'helix',
+            icons = {
+                mappings = false,
+            },
+            plugins = {
+                marks = false,        -- shows a list of your marks on ' and `
+                spelling = {
+                    enabled = true,   -- enabling this will show WhichKey when pressing z= to select spelling suggestions
+                    suggestions = 10, -- how many suggestions should be shown in the list?
+                },
+                presets = {
+                    operators = false,    -- adds help for operators like d, y, ...
+                    motions = false,      -- adds help for motions
+                    text_objects = false, -- help for text objects triggered after entering an operator
+                    windows = false,      -- default bindings on <c-w>
+                    nav = true,           -- misc bindings to work with windows
+                    z = false,            -- bindings for folds, spelling and others prefixed with z
+                    g = false,            -- bindings for prefixed with g
+                },
+            },
+            win = { border = "none" },
+        },
+    },
+
+    -- Fuzzy searching
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+        opts = {
+            pickers = {
+                colorscheme = {
+                    enable_preview = true
+                }
+            }
+        },
+        keys = {
+            { "<c-p>",     "<cmd>Telescope find_files theme=dropdown previewer=false<cr>",                desc = "Find files" },
+            { "<c-n>",     "<cmd>Telescope buffers theme=dropdown previewer=false<cr>",                   desc = "Find buffers" },
+            { "<leader>/", "<cmd>Telescope current_buffer_fuzzy_find theme=dropdown previewer=false<cr>", desc = "Find in buffer" },
+            { "<leader>g", "<cmd>Telescope live_grep<cr>",                                                desc = "Live grep" },
+            { "<leader>s", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",                            desc = "LSP symbols" },
+            { "<leader>?", "<cmd>Telescope help_tags<cr>",                                                desc = "Find help tags" },
+            { "<leader>k", "<cmd>Telescope keymaps<cr>",                                                  desc = "Find keymaps" },
+        }
+    },
+
+    -- Treesitter config
     {
         "nvim-treesitter/nvim-treesitter",
         dependencies = {
@@ -320,7 +423,6 @@ require("lazy").setup({
         },
         build = ":TSUpdate",
         config = function()
-            ---@diagnostic disable-next-line: missing-fields
             require("nvim-treesitter.configs").setup({
                 auto_install = true,
                 ensure_installed = {
@@ -358,6 +460,15 @@ require("lazy").setup({
                             ["it"] = "@type.inner",
                         },
                     },
+                    swap = {
+                        enable = true,
+                        swap_next = {
+                            ["]a"] = "@parameter.inner",
+                        },
+                        swap_previous = {
+                            ["[a"] = "@parameter.inner",
+                        },
+                    },
                 },
             })
             require "treesitter-context".setup {
@@ -365,20 +476,162 @@ require("lazy").setup({
                 multiline_threshold = 1,
                 trim_scope = "outer",
             }
-            vim.keymap.set("n", "<leader>tc", function()
+            require("treesitter-context").disable()
+            vim.keymap.set("n", "<leader>c", function()
                 require("treesitter-context").toggle()
             end, { desc = "Toggle context" })
         end,
     },
+
+    -- Debugging support
+    {
+        "mfussenegger/nvim-dap",
+        dependencies = {
+            {
+                "theHamsta/nvim-dap-virtual-text",
+                opts = {
+                    enabled = false
+                }
+            },
+            {
+                "rcarriga/nvim-dap-ui",
+                dependencies = { "nvim-neotest/nvim-nio" }
+            },
+            {
+                "mfussenegger/nvim-dap-python",
+                config = function()
+                    require("dap-python").setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
+                    require("dap-python").test_runner = "pytest"
+                end,
+            },
+            {
+                "leoluz/nvim-dap-go",
+                config = function()
+                    require("dap-go").setup()
+                end
+            },
+        },
+        config = function()
+            local dap = require("dap")
+            local dapui = require("dapui")
+
+            dapui.setup({
+                floating = {
+                    border = "none"
+                },
+                icons = {
+                    collapsed = ">",
+                    current_frame = ">",
+                    expanded = "v"
+                },
+                layouts = { {
+                    elements = { {
+                        id = "repl",
+                        size = 0.2
+                    }, {
+                        id = "console",
+                        size = 0.6
+                    } },
+                    position = "bottom",
+                    size = 10
+                } },
+            })
+
+            -- Change sign
+            vim.fn.sign_define("DapStopped", { text = ">>", texthl = "", linehl = "", numhl = "" })
+
+            -- Auto open and close UI
+            dap.listeners.before.attach.dapui_config = dapui.open
+            dap.listeners.before.launch.dapui_config = dapui.open
+            dap.listeners.before.event_terminated.dapui_config = dapui.close
+            dap.listeners.before.event_exited.dapui_config = dapui.close
+
+            require("which-key").add({ { '<leader>d', group = 'Debug...' } })
+
+            -- Breakpoint keymaps
+            vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Breakpoint" })
+            vim.keymap.set(
+                "n",
+                "<leader>dB",
+                function() dap.set_breakpoint(vim.fn.input("Breakpoint condition: ")) end,
+                { desc = "Conditional breakpoint" }
+            )
+            vim.keymap.set(
+                "n",
+                "<leader>dq",
+                function() dap.list_breakpoint(true) end,
+                { desc = "List breakpoints" }
+            )
+            vim.keymap.set("n", "<leader>dC", dap.clear_breakpoints, { desc = "Clear breakpoints" })
+
+            -- Debug command keymaps
+            vim.keymap.set("n", "<leader>dl", dap.run_last, { desc = "Run last" })
+            vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
+            vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into" })
+            vim.keymap.set("n", "<leader>dn", dap.step_over, { desc = "Step Over" })
+            vim.keymap.set("n", "<leader>do", dap.step_out, { desc = "Step Out" })
+            vim.keymap.set("n", "<leader>dr", dap.run_to_cursor, { desc = "Run to cursor" })
+            vim.keymap.set("n", "<leader>dk", dap.close, { desc = "Kill session" })
+            vim.keymap.set("n", "<leader>dt", function()
+                if vim.bo.filetype == "python" then
+                    require("dap-python").test_method({ config = { justMyCode = false } })
+                elseif vim.bo.filetype == "go" then
+                    require("dap-go").debug_test()
+                else
+                    print("No test runner for filetype: " .. vim.bo.filetype)
+                end
+            end, { desc = "Nearest test" })
+
+            -- UI keymaps
+            vim.keymap.set("n", "<leader>dd", dap.repl.toggle, { desc = "Toggle REPL" })
+            vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Toggle UI" })
+            vim.keymap.set("n", "<leader>dv", "<cmd>DapVirtualTextToggle<cr>", { desc = "Toggle virtual text" })
+            vim.keymap.set("n", "<leader>dw", function() dapui.float_element("watches") end, { desc = "Show watches" })
+            vim.keymap.set("n", "<leader>ds", function() dapui.float_element("scopes") end, { desc = "Show scopes" })
+        end,
+    },
+
+    -- Run tests
+    {
+        "nvim-neotest/neotest",
+        dependencies = {
+            "nvim-neotest/nvim-nio",
+            "nvim-lua/plenary.nvim",
+            "antoinemadec/FixCursorHold.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-neotest/neotest-go",
+            "nvim-neotest/neotest-python",
+        },
+        config = function()
+            local nt = require("neotest")
+            nt.setup({
+                adapters = {
+                    require("neotest-go"),
+                    require("neotest-python"),
+                }
+            })
+            require("which-key").add({ { '<leader>t', group = 'Test...' } })
+            vim.keymap.set("n", "<leader>tt", require("neotest").run.run, { desc = "Run nearest" })
+            vim.keymap.set("n", "<leader>tf", function() require("neotest").run.run(vim.fn.expand("%")) end,
+                { desc = "Run file" })
+            vim.keymap.set("n", "<leader>ts", require("neotest").summary.toggle, { desc = "Test summary" })
+            vim.keymap.set("n", "[t", require("neotest").jump.prev, { desc = "Previous test" })
+            vim.keymap.set("n", "]t", require("neotest").jump.next, { desc = "Next test" })
+        end,
+    },
+
+    -- Autocompletion
     {
         "hrsh7th/nvim-cmp",
-        event = "InsertEnter",
+        event = { "InsertEnter", "CmdlineEnter" },
         dependencies = {
+            -- Sources
             "hrsh7th/cmp-nvim-lsp",
             "hrsh7th/cmp-buffer",
-            "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
             "rcarriga/cmp-dap",
+            -- Snippets
             "rafamadriz/friendly-snippets",
             "saadparwaiz1/cmp_luasnip",
             { "L3MON4D3/LuaSnip", version = "v2.*" },
@@ -394,7 +647,7 @@ require("lazy").setup({
                 end,
                 snippet = {
                     expand = function(args)
-                        require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
+                        require("luasnip").lsp_expand(args.body)
                     end,
                 },
                 mapping = cmp.mapping.preset.insert({
@@ -434,17 +687,18 @@ require("lazy").setup({
                     end, { "i", "s" }),
                 }),
                 sources = cmp.config.sources({
-                    { name = "copilot",  index = 1 },
-                    { name = "nvim_lsp", index = 1 },
-                    { name = "luasnip",  index = 1 },
-                    { name = "path",     index = 1 },
-                    { name = "buffer",   index = 2 },
+                    { name = "nvim_lsp" },
+                    { name = "luasnip", },
+                    { name = "path" },
+                    { name = "buffer" },
                 }),
             })
+            -- Setup searching
             cmp.setup.cmdline({ "/", "?" }, {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = { name = "buffer" },
             })
+            -- Setup command line
             cmp.setup.cmdline(":", {
                 mapping = cmp.mapping.preset.cmdline({
                     ["<c-n>"] = cmp.config.disable,
@@ -470,6 +724,66 @@ require("lazy").setup({
             require("luasnip.loaders.from_vscode").lazy_load()
         end,
     },
+
+    -- Formatting
+    {
+        'stevearc/conform.nvim',
+        event = "BufWritePost",
+        cmd = { 'ConformInfo' },
+        opts = {
+            notify_on_error = false,
+            formatters_by_ft = {
+                bash = { "shfmt" },
+                go = { "goimports", "gofumpt" },
+                javascript = { "prettierd" },
+                javascriptreact = { "prettierd" },
+                json = { "prettierd" },
+                lua = { "stylua" },
+                markdown = { "prettierd" },
+                python = { "ruff_organize_imports", "ruff_format" },
+                sh = { "shfmt" },
+                typescript = { "prettierd" },
+                typescriptreact = { "prettierd" },
+                yaml = { "prettierd" },
+            },
+            format_on_save = function(bufnr)
+                local bufname = vim.api.nvim_buf_get_name(bufnr)
+                if bufname:match("/node_modules/") or bufname:match("/dist-packages/") then
+                    return
+                end
+                return { lsp_fallback = true }
+            end,
+        },
+    },
+
+    -- Linting
+    {
+        "mfussenegger/nvim-lint",
+        event = "BufWritePost",
+        config = function()
+            require("lint").linters_by_ft = {
+                bash = { "shellcheck" },
+                go = { "golangcilint" },
+                html = { "htmlhint" },
+                javascript = { "eslint_d" },
+                javascriptreact = { "eslint_d" },
+                json = { "jsonlint" },
+                proto = { "buf_lint" },
+                python = { "ruff" },
+                sh = { "shellcheck" },
+                typescript = { "eslint_d" },
+                typescriptreact = { "eslint_d" },
+            }
+            vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+                callback = function()
+                    require("lint").try_lint()
+                    require("lint").try_lint("codespell")
+                end,
+            })
+        end,
+    },
+
+    -- Lsp configuration
     {
         "neovim/nvim-lspconfig",
         dependencies = {
@@ -488,7 +802,6 @@ require("lazy").setup({
                         "jsonls",
                         "lua_ls",
                         "pyright",
-                        "ruff_lsp",
                         "taplo",
                         "yamlls",
                         "zls",
@@ -539,148 +852,37 @@ require("lazy").setup({
             })
         end
     },
-    {
-        "stevearc/conform.nvim",
-        config = function()
-            local conform = require("conform")
-            conform.setup {
-                formatters_by_ft = {
-                    bash = { "shfmt" },
-                    go = { "goimports", "gofumpt" },
-                    javascript = { "prettierd" },
-                    javascriptreact = { "prettierd" },
-                    json = { "prettierd" },
-                    lua = { "stylua" },
-                    markdown = { "prettierd" },
-                    proto = { "buf_lint" },
-                    python = { "ruff_organize_imports", "ruff_format" },
-                    sh = { "shfmt" },
-                    typescript = { "prettierd" },
-                    typescriptreact = { "prettierd" },
-                    yaml = { "prettierd" },
-                },
-                format_on_save = function(bufnr)
-                    if vim.g.disable_autoformat then
-                        return
-                    end
-                    local bufname = vim.api.nvim_buf_get_name(bufnr)
-                    if bufname:match("/node_modules/") or bufname:match("/dist-packages/") then
-                        return
-                    end
-                    return { lsp_fallback = true }
-                end,
-            }
-            vim.api.nvim_create_user_command("FormatDisable", function()
-                vim.g.disable_autoformat = true
-            end, { desc = "Disable format on save" })
-            vim.api.nvim_create_user_command("FormatEnable", function()
-                vim.g.disable_autoformat = false
-            end, { desc = "Enable format on save" })
-        end,
-    },
-    {
-        "mfussenegger/nvim-lint",
-        config = function()
-            require("lint").linters_by_ft = {
-                bash = { "shellcheck" },
-                go = { "golangcilint" },
-                html = { "htmlhint" },
-                javascript = { "eslint_d" },
-                javascriptreact = { "eslint_d" },
-                json = { "jsonlint" },
-                proto = { "buf_lint" },
-                sh = { "shellcheck" },
-                typescript = { "eslint_d" },
-                typescriptreact = { "eslint_d" },
-            }
-            vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-                callback = function()
-                    require("lint").try_lint()
-                    require("lint").try_lint("codespell")
-                end,
-            })
-        end,
-    },
-    {
-        "mfussenegger/nvim-dap",
-        dependencies = {
-            { "theHamsta/nvim-dap-virtual-text", opts = { enabled = false } },
-            { "rcarriga/nvim-dap-ui",            dependencies = { "nvim-neotest/nvim-nio" } },
-            {
-                "mfussenegger/nvim-dap-python",
-                config = function()
-                    require("dap-python").setup("~/.local/share/nvim/mason/packages/debugpy/venv/bin/python")
-                    require("dap-python").test_runner = "pytest"
-                end,
-            },
-            {
-                "leoluz/nvim-dap-go",
-                config = function()
-                    require("dap-go").setup()
-                end
-            },
-        },
-        config = function()
-            local dap = require("dap")
-            local dapui = require("dapui")
-            dapui.setup()
 
-            vim.fn.sign_define("DapStopped", { text = ">>", texthl = "", linehl = "", numhl = "" })
-            dap.defaults.fallback.exception_breakpoints = { "default" }
-            vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint, { desc = "Debug: Toggle breakpoint" })
-            vim.keymap.set("n", "<leader>B", function()
-                dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
-            end, { desc = "Debug: Set Conditional breakpoint" })
-            vim.keymap.set("n", "<leader>dC", dap.clear_breakpoints, { desc = "Debug: Clear breakpoints" })
-            vim.keymap.set("n", "<leader>dd", dap.run_last, { desc = "Debug: Run last" })
-            vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Debug: Start/Continue" })
-            vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Debug: Step Into" })
-            vim.keymap.set("n", "<leader>dn", dap.step_over, { desc = "Debug: Step Over" })
-            vim.keymap.set("n", "<leader>do", dap.step_out, { desc = "Debug: Step Out" })
-            vim.keymap.set("n", "<leader>dr", dap.run_to_cursor, { desc = "Debug: Run to cursor" })
-            vim.keymap.set("n", "<leader>dk", dap.close, { desc = "Debug: Kill" })
-            vim.keymap.set("n", "<leader>d<space>", dap.repl.toggle, { desc = "Debug: Toggle REPL" })
-            vim.keymap.set("n", "<leader>db", function() dap.list_breakpoint(true) end,
-                { desc = "Debug: List breakpoints" })
-            vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Debug: Toggle UI." })
-            vim.keymap.set("n", "<leader>dw", function() dapui.float_element("watches") end, { desc = "Debug: Watches" })
-            vim.keymap.set("n", "<leader>ds", function() dapui.float_element("scopes") end, { desc = "Debug: Scopes" })
-            vim.keymap.set("n", "<leader>dv", "<cmd>DapVirtualTextToggle<cr>", { desc = "Debug: Toggle virtual text" })
-            vim.keymap.set("n", "<leader>dt", function()
-                if vim.bo.filetype == "python" then
-                    require("dap-python").test_method()
-                elseif vim.bo.filetype == "go" then
-                    require("dap-go").debug_test()
-                else
-                    print("No test runner for filetype: " .. vim.bo.filetype)
-                end
-            end, { desc = "Debug: Nearest test" })
-        end,
+    -- Copilot (not sure I want this??)
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     event = "InsertEnter",
+    --     config = function()
+    --         local copilot = require("copilot")
+    --         local suggestion = require("copilot.suggestion")
+    --         copilot.setup {
+    --             suggestion = {
+    --                 enabled = true,
+    --                 auto_trigger = false,
+    --                 hide_during_completion = false,
+    --                 debounce = 75,
+    --                 keymap = {
+    --                     accept = false,
+    --                     next = "<M-]>",
+    --                     prev = "<M-[>",
+    --                 },
+    --             },
+    --             filetypes = {},
+    --         }
+    --         vim.keymap.set("i", "<c-space>", function()
+    --             if not suggestion.is_visible() then
+    --                 suggestion.next()
+    --             else
+    --                 suggestion.accept()
+    --             end
+    --         end, { desc = "Accept copilot suggestion" })
+    --         vim.keymap.set("n", "<leader>tp", suggestion.toggle_auto_trigger, { desc = "Toggle copilot" })
+    --     end,
+    -- },
 
-    },
-    {
-        "nvim-neotest/neotest",
-        dependencies = {
-            "nvim-neotest/nvim-nio",
-            "nvim-lua/plenary.nvim",
-            "antoinemadec/FixCursorHold.nvim",
-            "nvim-treesitter/nvim-treesitter",
-            "nvim-neotest/neotest-go",
-            "nvim-neotest/neotest-python",
-        },
-        config = function()
-            local nt = require("neotest")
-            nt.setup({
-                adapters = {
-                    require("neotest-go"),
-                    require("neotest-python"),
-                }
-            })
-            vim.keymap.set("n", "<leader>tt", nt.run.run, { desc = "Test: Nearest" })
-            vim.keymap.set("n", "<leader>tf", function() nt.run.run(vim.fn.expand("%")) end, { desc = "Test: File" })
-            vim.keymap.set("n", "<leader>ts", nt.summary.toggle, { desc = "Test: Summary" })
-            vim.keymap.set("n", "[t", nt.jump.prev, { desc = "Previous test" })
-            vim.keymap.set("n", "]t", nt.jump.next, { desc = "Next test" })
-        end
-    },
 }, {})
