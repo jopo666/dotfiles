@@ -63,7 +63,7 @@ if type fzf &>/dev/null; then
 	eval "$(fzf --bash)"
 	export FZF_DEFAULT_OPTS="--reverse --border=none --no-separator --no-scrollbar --info=hidden"
 	__edit_file() {
-		filename=$(fzf --preview-window=right:70%:border-none --preview "bat --style=numbers --color=always {} ")
+		filename=$(fd -t f | fzf --preview-window=right:70%:border-none --preview "bat --style=numbers --color=always {} ")
 		[ -n "$filename" ] && {
 			nvim "$filename"
 			history -s "nvim \"$filename\""
