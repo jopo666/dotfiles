@@ -166,13 +166,6 @@ require("lazy").setup({
     -- Extra movements
     { "echasnovski/mini.bracketed", opts = {} },
 
-    -- Don't block if waiting for next key
-    -- {
-    --     "max397574/better-escape.nvim",
-    --     event = "InsertEnter",
-    --     opts = {}
-    -- },
-
     -- Add indent guides
     {
         "shellRaining/hlchunk.nvim",
