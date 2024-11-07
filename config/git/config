@@ -5,18 +5,17 @@
 [core]
     editor = nvim
     eol = lf
+    pager = delta
     whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [commit]
     verbose = true
 [merge]
     conflictstyle = diff3
 [diff]
-    tool = difftastic
     algorithm = histogram
     colorMoved = default
-[difftool]
-    prompt = false
-[difftool "difftastic"]
-    cmd = difft "$LOCAL" "$REMOTE"
-[pager]
-    difftool = true
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true    # use n and N to move between diff sections
+    side-by-side = true
