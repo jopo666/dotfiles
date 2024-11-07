@@ -114,11 +114,11 @@ bar {
 }
 
 # class                 border  bground text    indicator child_border
-client.focused          #1D2021 #1D2021 #EBDBB2 #1D2021   #1D2021
-client.focused_inactive #1D2021 #1D2021 #504945 #1D2021   #1D2021
-client.unfocused        #1D2021 #1D2021 #504945 #1D2021   #1D2021
-client.urgent           #1D2021 #1D2021 #EA6962 #1D2021   #1D2021
-client.placeholder      #1D2021 #1D2021 #504945 #1D2021   #1D2021
+client.focused          #1D2021 #504945 #EBDBB2 #1D2021   #1D2021
+client.focused_inactive #1D2021 #1D2021 #EBDBB2 #1D2021   #1D2021
+client.unfocused        #1D2021 #1D2021 #EBDBB2 #1D2021   #1D2021
+client.urgent           #1D2021 #1D2021 #EBDBB2 #1D2021   #1D2021
+client.placeholder      #1D2021 #1D2021 #EBDBB2 #1D2021   #1D2021
 client.background       #1D2021
 
 font pango:Hack Nerd Font 8
