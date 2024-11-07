@@ -228,16 +228,15 @@ require("lazy").setup({
         priority = 1000,
         config = function() vim.cmd.colorscheme('zenbones') end
     },
-
-    -- {
-    --     "sainnhe/gruvbox-material",
-    --     config = function()
-    --         vim.g.gruvbox_material_background = "soft"
-    --         vim.g.gruvbox_material_better_performance = true
-    --         vim.g.gruvbox_material_disable_italic_comment = true
-    --         vim.cmd [[ colorscheme gruvbox-material ]]
-    --     end
-    -- },
+    {
+        "sainnhe/gruvbox-material",
+        config = function()
+            vim.g.gruvbox_material_background = "hard"
+            vim.g.gruvbox_material_better_performance = true
+            vim.g.gruvbox_material_disable_italic_comment = true
+            vim.cmd [[ colorscheme gruvbox-material ]]
+        end
+    },
 
 
     -- Version control
@@ -541,7 +540,6 @@ require("lazy").setup({
             vim.fn.sign_define("DapStopped", { text = ">>", texthl = "", linehl = "", numhl = "" })
 
             -- Auto open and close UI
-            dap.listeners.before.attach.dapui_config = dapui.open
             dap.listeners.before.launch.dapui_config = dapui.open
             dap.listeners.before.event_terminated.dapui_config = dapui.close
             dap.listeners.before.event_exited.dapui_config = dapui.close
