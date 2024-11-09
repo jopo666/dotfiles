@@ -43,6 +43,7 @@ alias vi="nvim"
 alias vd="nvim ."
 alias lg="lazygit"
 alias tmz="$HOME/.local/bin/sessionizer"
+alias rdr="$HOME/.local/bin/reader"
 if type bat &>/dev/null; then
 	alias cat="bat --plain --plain"
 fi
