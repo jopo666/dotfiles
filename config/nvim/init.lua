@@ -126,6 +126,10 @@ vim.keymap.set("n", "<leader>o", function()
     end
 end, { desc = "Close other buffers" })
 
+
+-- Snippets
+vim.keymap.set("n", ",e", "oif err != nil {<cr>}<esc>Oreturn err<Esc>")
+
 -- Setup lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
