@@ -25,7 +25,6 @@ set $ws_code 4:code
 set $ws_slack 5:slack
 set $ws_misc 6:misc
 
-assign [app_id="firefox"] $ws_web
 assign [class="Chromium"] $ws_web
 assign [class="Google-chrome"] $ws_web
 assign [app_id="foot"] $ws_term
