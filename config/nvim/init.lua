@@ -60,10 +60,6 @@ vim.keymap.set("i", "jk", "<esc>")
 vim.keymap.set("c", "<c-p>", "<up>")
 vim.keymap.set("c", "<c-n>", "<down>")
 
--- Switch buffers
-vim.keymap.set("n", "<tab>", ":bn<cr>", { desc = "Next buffer", silent = true })
-vim.keymap.set("n", "<s-tab>", ":bp<cr>", { desc = "Previous buffer", silent = true })
-
 -- Center view when scrolling
 vim.keymap.set("n", "<c-d>", "<c-d>zz")
 vim.keymap.set("n", "<c-u>", "<c-u>zz")
