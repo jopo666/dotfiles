@@ -1,0 +1,60 @@
+gui:
+  sidePanelWidth: 0.2
+  showRandomTip: false
+  showCommandLog: true
+  showBottomLine: true
+  showPanelJumps: false
+  border: single
+git:
+  paging:
+    useConfig: true
+  commit:
+    autoWrapCommitMessage: true
+    autoWrapWidth: 72
+  mainBranches:
+    - master
+    - main
+    - develop
+  skipHookPrefix: WIP
+  autoStageResolvedConflicts: true
+disableStartupPopups: true
+notARepository: quit
+promptToReturnFromSubprocess: false
+
+# Keybindings
+keybinding:
+  universal:
+    quit-alt1: <disabled>
+    prevItem: <disabled>
+    nextItem: <disabled>
+    prevPage: <disabled>
+    nextPage: <disabled>
+    rangeSelectDown: <disabled>
+    rangeSelectUp: <disabled>
+    prevBlock: <disabled>
+    nextBlock: <disabled>
+    nextBlock-alt2: <disabled>
+    prevBlock-alt2: <disabled>
+    openFile: <disabled>
+    scrollUpMain: <disabled>
+    scrollDownMain: <disabled>
+    scrollUpMain-alt1: <disabled>
+    scrollDownMain-alt1: <disabled>
+    executeShellCommand: <disabled>
+    undo: u
+    redo: U
+  files:
+    commitChangesWithoutHook: <disabled>
+    ignoreFile: <disabled>
+    stashAllChanges: <disabled>
+    viewStashOptions: s
+    toggleTreeView: t
+  branches:
+    createPullRequest: <disabled>
+    viewPullRequestOptions: o
+    copyPullRequestURL: y
+  commits:
+    moveDownCommit: J
+    moveUpCommit: K
+    amendToCommit: a
+    resetCommitAuthor: A
