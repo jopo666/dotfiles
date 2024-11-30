@@ -3,7 +3,7 @@ if [[ ! $- == *i* ]]; then
 	return
 fi
 
-export PS1="\w $ "
+export PS1="\n\w $ "
 export EDITOR="nvim"
 export VISUAL="nvim"
 export TERM="tmux-256color"
