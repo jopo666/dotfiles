@@ -32,6 +32,8 @@ volume master {
 }
 battery all {
     format = "bat: %percentage"
+    integer_battery_capacity = true
+    last_full_capacity = true
 }
 tztime local {
     format = "%D %H:%M "
