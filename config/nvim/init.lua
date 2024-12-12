@@ -118,7 +118,7 @@ vim.keymap.set("n", "<c-c>", "<cmd>nohlsearch<cr>", { desc = "Clear highlights" 
 vim.keymap.set("n", "<space><space>", "<c-^>", { desc = "Switch buffers" })
 
 -- Rename current word
-vim.keymap.set("n", "<c-s>", 'yiw:%s/<c-r>"//g<left><left>')
+vim.keymap.set("n", "<leader>r", 'yiw:%s/<c-r>"//g<left><left>')
 
 -- Sort selection
 vim.keymap.set("v", "gs", ":sort<cr>", { desc = "Sort selection" })
@@ -183,7 +183,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 
-    -- Basics.
+    -- Basics
+    { "tpope/vim-sleuth" },
     { "echasnovski/mini.ai",         opts = {} },
     { "echasnovski/mini.bracketed",  opts = {} },
     { "echasnovski/mini.comment",    opts = {} },
@@ -246,6 +247,15 @@ require("lazy").setup({
         },
         keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Toggle zen" } }
     },
+
+    -- Markdown preview
+    {
+        "ellisonleao/glow.nvim",
+        ft = "markdown",
+        opts = {},
+        keys = { { "<leader>m", "<cmd>Glow<cr>" } }
+    },
+
 
     -- Undo tree
     {
@@ -482,7 +492,7 @@ require("lazy").setup({
             vim.keymap.set("n", "<leader>du", dapui.toggle, { desc = "Toggle UI" })
             vim.keymap.set("n", "<leader>dv", "<cmd>DapVirtualTextToggle<cr>", { desc = "Toggle virtual text" })
             vim.keymap.set({ "n", "v" }, "<leader>de", function() dapui.eval() end, { desc = "Evaluate" })
-            vim.keymap.set("n", "<leader>dt", function() dapui.float_element("stacks") end, { desc = "Show stacks" })
+            vim.keymap.set("n", "<leader>dS", function() dapui.float_element("stacks") end, { desc = "Show stacks" })
             vim.keymap.set("n", "<leader>de", function() dapui.float_element("console") end, { desc = "Show console" })
             vim.keymap.set("n", "<leader>dw", function() dapui.float_element("watches") end, { desc = "Show watches" })
             vim.keymap.set("n", "<leader>ds", function() dapui.float_element("scopes") end, { desc = "Show scopes" })
@@ -611,20 +621,14 @@ require("lazy").setup({
             {
                 "williamboman/mason-lspconfig.nvim",
                 opts = {
-                    automatic_installation = true,
+                    automatic_installation = false,
                     ensure_installed = {
-                        "bashls",
                         "bufls",
-                        "dockerls",
                         "gopls",
-                        "html",
                         "jsonls",
-                        "ruff",
                         "lua_ls",
-                        "pyright",
                         "taplo",
                         "yamlls",
-                        "zls",
                     }
                 },
             },
@@ -673,7 +677,10 @@ require("lazy").setup({
                     },
                     format_on_save = function(bufnr)
                         local bufname = vim.api.nvim_buf_get_name(bufnr)
-                        if bufname:match("/node_modules/") or bufname:match("/dist-packages/") then
+                        if (
+                                bufname:match("/node_modules/")
+                                or bufname:match("/dist-packages/")
+                            ) then
                             return
                         end
                         return { lsp_fallback = true }
@@ -714,14 +721,14 @@ require("lazy").setup({
                     require("lspconfig")[server_name].setup {}
                 end,
             }
+            local lspconfig = require('lspconfig')
+            lspconfig.ruff.setup {}
+            lspconfig.pyright.setup {}
             vim.api.nvim_create_autocmd("LspAttach", {
-
                 group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
                 callback = function(event)
                     require 'lsp_signature'.on_attach({
                         doc_lines = 20,
-                        floating_window_off_x = 1000,
-                        floating_window_off_y = -1000,
                         hint_enable = false,
                         toggle_key = "<c-s>",
                         handler_opts = { border = "none" },
