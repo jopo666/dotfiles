@@ -46,5 +46,6 @@
   "telescope.nvim": { "branch": "master", "commit": "eae0d8fbde590b0eaa2f9481948cd6fd7dd21656" },
   "undotree": { "branch": "master", "commit": "78b5241191852ffa9bb5da5ff2ee033160798c3b" },
   "vim-tmux-navigator": { "branch": "master", "commit": "a9b52e7d36114d40350099f254b5f299a35df978" },
-  "zen-mode.nvim": { "branch": "main", "commit": "29b292bdc58b76a6c8f294c961a8bf92c5a6ebd6" }
+  "zen-mode.nvim": { "branch": "main", "commit": "29b292bdc58b76a6c8f294c961a8bf92c5a6ebd6" },
+  "zig.vim": { "branch": "master", "commit": "15d6510b77a4efbb6ffcb151ed7e2ce4de4d06f6" }
 }

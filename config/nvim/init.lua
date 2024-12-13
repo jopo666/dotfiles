@@ -123,6 +123,12 @@ vim.keymap.set("n", "<c-s>", 'yiw:%s/<c-r>"//g<left><left>')
 -- Sort selection
 vim.keymap.set("v", "gs", ":sort<cr>", { desc = "Sort selection" })
 
+-- Run make
+vim.keymap.set("n", "<leader>m", ":make<cr>", { desc = "Run make" })
+
+-- Add semicolon
+vim.keymap.set("n", "<leader>;", "mCA;<esc>`C", { desc = "Add semicolon" })
+
 -- Make file executable
 vim.keymap.set("n", "<leader>X", "<cmd>!chmod +x %<cr>", { desc = "Make file executable" })
 
@@ -184,6 +190,14 @@ require("lazy").setup({
     { "echasnovski/mini.cursorword", opts = {} },
     { "echasnovski/mini.splitjoin",  opts = { mappings = { toggle = "<leader>j" } } },
     { "kylechui/nvim-surround",      opts = {} },
+
+    -- Zig settings for compiler
+    {
+        "https://github.com/ziglang/zig.vim",
+        config = function()
+            vim.g.zig_fmt_autosave = 0 -- Handled by zls
+        end
+    },
 
     -- Split/tmux navigation
     {

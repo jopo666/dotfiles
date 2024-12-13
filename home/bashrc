@@ -32,6 +32,11 @@ if [ -d /home/linuxbrew ]; then
 	[ -f $HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh ] && source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
 fi
 
+# ZVM
+export ZVM_INSTALL="$HOME/.zvm/self"
+export PATH="$PATH:$HOME/.zvm/bin"
+export PATH="$PATH:$ZVM_INSTALL/"
+
 # Aliases
 if command nvidia-smi &>/dev/null; then
 	alias ai="ollama run llama3.1"
@@ -59,6 +64,9 @@ alias py='python'
 alias pa='source .venv/bin/activate'
 alias pd='deactivate'
 alias ..="cd .."
+alias zb="zig build"
+alias zr="zig build run"
+alias zt="zig build test"
 
 if type fzf &>/dev/null; then
 	eval "$(fzf --bash)"
