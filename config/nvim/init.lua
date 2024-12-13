@@ -726,6 +726,14 @@ require("lazy").setup({
                         toggle_key = "<c-s>",
                         handler_opts = { border = "none" },
                     }, event.buf)
+                    vim.keymap.set("n", "<c->", function()
+                        require("lsp_signature").toggle_float_win()
+                    end, { buffer = event.buf, desc = "Toggle signature help" }
+                    )
+                    vim.keymap.set("n", "<leader>i", function()
+                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+                    end, { buffer = event.buf, desc = "Toggle inlay hints" }
+                    )
                     vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = event.buf, desc = "Goto declaration" })
                     vim.keymap.set("n", "gd", vim.lsp.buf.definition, { buffer = event.buf, desc = "Goto definition" })
                     vim.keymap.set("n", "gr", vim.lsp.buf.references, { buffer = event.buf, desc = "Show references" })
