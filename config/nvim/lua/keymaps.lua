@@ -85,7 +85,8 @@ vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste from clipboard"
 vim.keymap.set({ "n", "x" }, "<leader>P", '"+P', { desc = "Paste from clipboard" })
 
 -- Buffer mappings
-vim.keymap.set("n", "<leader>O", function()
+vim.keymap.set("n", "<leader>x", ":bd<cr>", { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>o", function()
     local current = vim.api.nvim_get_current_buf()
     for _, buf in ipairs(vim.api.nvim_list_bufs()) do
         if buf ~= current then
@@ -99,9 +100,9 @@ vim.keymap.set("n", "[b", "<cmd>bprevious<cr>")
 vim.keymap.set("n", "]b", "<cmd>bnext<cr>")
 
 -- Tab mappings
-vim.keymap.set("n", "<leader>n", ":tabnew<cr>", { desc = "New tab" })
-vim.keymap.set("n", "<leader>x", ":tabclose<cr>", { desc = "Close tab" })
-vim.keymap.set("n", "<leader>o", ":tabonly<cr>", { desc = "Close other tabs" })
+vim.keymap.set("n", "<leader>tn", ":tabnew<cr>", { desc = "New tab" })
+vim.keymap.set("n", "<leader>tx", ":tabclose<cr>", { desc = "Close tab" })
+vim.keymap.set("n", "<leader>to", ":tabonly<cr>", { desc = "Close other tabs" })
 vim.keymap.set("n", "[T", "<cmd>tabfirst<cr>")
 vim.keymap.set("n", "]T", "<cmd>tablast<cr>")
 vim.keymap.set("n", "[t", "<cmd>tabprevious<cr>")
