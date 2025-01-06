@@ -1,0 +1,48 @@
+#!/usr/bin/env sh
+
+alias v="nvim"
+alias vd="nvim ."
+
+alias ..="cd .."
+alias ls="ls --color"
+alias l="ls --color -lhv --group-directories-first"
+alias ll="ls --color -lhva --group-directories-first"
+alias grep="grep --color=auto -i"
+
+alias lg="lazygit"
+command -v bat >/dev/null && alias cat="bat --plain --plain"
+
+alias wifi="nmcli dev wifi list"
+
+# Chat.
+if command -v nvidia-smi >/dev/null; then
+    alias ai="ollama run llama3.1"
+else
+    alias ai="ollama run llama3.2"
+fi
+
+# Shorter script names.
+alias ses=~/.local/bin/sessionizer
+alias rdr=~/.local/bin/reader
+
+# Python.
+alias py='python'
+alias pt='pytest --no-header'
+
+# Zig.
+alias zb="zig build"
+alias zr="zig build run"
+alias zt="zig build test"
+
+# Go.
+alias gb="go build"
+alias gr="go run"
+alias gt="go test ./..."
+alias gi="go install ./..."
+alias gc="go clean -i"
+
+# Docker.
+alias ds="docker ps -aq | xargs -r docker stop"
+alias dri="docker ps -aq | xargs -r docker rm"
+alias drv="docker volume prune -af"
+alias drs="docker system prune -af"

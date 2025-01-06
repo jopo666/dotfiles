@@ -3,84 +3,14 @@ if [[ ! $- == *i* ]]; then
     return
 fi
 
-export PS1="\w $ "
-export EDITOR="nvim"
-export VISUAL="nvim"
-export TERM="tmux-256color"
-export PROMPT_COMMAND="export PROMPT_COMMAND=echo"
+source "$HOME/.environment"
+source "$HOME/.aliases"
 
 # History
-export HISTSIZE=10000
-export HISTFILESIZE=10000
-export HISTFILE="$HOME/.history"
-export HISTCONTROL=ignoreboth
-export PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 shopt -s histappend
 
-# Path
-export PATH="$HOME/.local/bin:$PATH"
-[ -d "$HOME/.local/share/nvim/mason" ] && export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
-
-# Homebrew
-if [ -d /home/linuxbrew ]; then
-    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-    export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
-    export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
-    export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}"
-    [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
-    export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}"
-    [ -z "${XDG_DATA_DIRS-}" ] || export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:${XDG_DATA_DIRS-}"
-    [ -f $HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh ] && source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
-fi
-
-# ZVM
-export ZVM_INSTALL="$HOME/.zvm/self"
-export PATH="$PATH:$HOME/.zvm/bin"
-export PATH="$PATH:$ZVM_INSTALL/"
-
-# Aliases
-if command nvidia-smi &>/dev/null; then
-    alias ai="ollama run llama3.1"
-else
-    alias ai="ollama run llama3.2"
-fi
-
-alias v="nvim"
-alias vi="nvim"
-alias vd="nvim ."
-alias lg="lazygit"
-alias tmz="$HOME/.local/bin/sessionizer"
-alias rdr="$HOME/.local/bin/reader"
-if type bat &>/dev/null; then
-    alias cat="bat --plain --plain"
-fi
-alias l="ls --color -lhv --group-directories-first"
-alias ll="ls --color -lhva --group-directories-first"
-alias dstop="docker ps -aq | xargs -r docker stop"
-alias dpurge="docker ps -aq | xargs -r docker stop | xargs -r docker rm && docker volume prune -af && docker system prune -af"
-alias grep="grep --color=auto -i"
-alias yank="wl-copy"
-alias c="clear"
-alias py='python'
-alias pa='source .venv/bin/activate'
-alias pd='deactivate'
-alias ..="cd .."
-alias zb="zig build"
-alias zr="zig build run"
-alias zt="zig build test"
-
-if type fzf &>/dev/null; then
-    eval "$(fzf --bash)"
-    export FZF_DEFAULT_OPTS="--reverse --border=none --no-separator --no-scrollbar --info=hidden"
-    __edit_file() {
-        filename=$(fd -t f | fzf --preview-window=right:70%:border-none --preview "bat --style=numbers --color=always {} ")
-        [ -n "$filename" ] && {
-            READLINE_LINE="${READLINE_LINE}nvim ${filename}"
-            READLINE_POINT=${#READLINE_LINE}
-        }
-    }
-    bind -x '"\C-f":"__edit_file"'
-fi
+# FZF
+eval "$(fzf --bash)"
 
 # Bindings
 bind "\C-p":history-search-backward

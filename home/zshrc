@@ -1,0 +1,78 @@
+#!/usr/bin/env zsh
+
+# Newline before each command
+precmd() { print "" }
+
+# History.
+export HISTFILE="$HOME/.zsh_history"
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_SAVE_NO_DUPS
+setopt SHARE_HISTORY
+
+# Directory stack.
+setopt AUTO_PUSHD
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_SILENT
+alias d='dirs -v | tail -n +2'
+for index ({1..9}) alias "$index"="cd +${index}"; unset index
+
+# Aliases
+source $HOME/.aliases
+
+# Completion
+setopt MENU_COMPLETE
+setopt AUTO_LIST
+setopt COMPLETE_IN_WORD
+zmodload zsh/complist
+autoload -Uz compinit; compinit
+
+zstyle ':completion:*' menu select
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
+
+# Activate fzf.
+eval "$(fzf --zsh)"
+
+# History search bindings
+bindkey "^P" history-search-backward
+bindkey "^N" history-search-forward
+
+# Clear screen with c-g.
+bindkey '^G' .clear-screen
+
+# Edit file with c-f.
+bindkey -s '^F' 'nvim **^I'
+
+# Change directory.
+bindkey -s '^E' 'cd **^I'
+
+# Kill processes.
+bindkey -s '^X^X' 'kill -9 **^I'
+
+# Allow Ctrl-z to toggle between suspend and resume
+bindkey -s "^Z" "fg\n"
+
+# Activate python env if one exists
+autoload -U add-zsh-hook
+function python_env {
+    if [ -e .venv/bin/activate ]; then
+      source .venv/bin/activate
+    elif [ "$VIRTUAL_ENV" ]; then
+      deactivate
+    fi
+}
+add-zsh-hook chpwd python_env
+
+# Plugins
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+bindkey '^Y' autosuggest-execute
+
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=magenta,bold'
+
