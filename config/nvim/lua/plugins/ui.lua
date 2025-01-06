@@ -69,7 +69,7 @@ return {
         "ellisonleao/glow.nvim",
         ft = "markdown",
         opts = {},
-        keys = { { "<leader>mp", "<cmd>Glow<cr>", desc = "Preview markdown" } }
+        keys = { { "<leader>M", "<cmd>Glow<cr>", desc = "Preview markdown" } }
     },
 
     -- Show register contents

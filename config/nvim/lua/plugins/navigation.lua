@@ -79,9 +79,8 @@ return {
     {
         "leath-dub/snipe.nvim",
         keys = {
-            { "<space><space>", function() require("snipe").open_buffer_menu() end, desc = "Buffer menu" }
+            { "<cr>", function() require("snipe").open_buffer_menu() end, desc = "Buffer menu" }
         },
         opts = {}
     },
-
 }
