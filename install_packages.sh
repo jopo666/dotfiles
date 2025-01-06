@@ -37,7 +37,7 @@ PACKAGES_APT=(
 )
 PACKAGES_BREW=(
 	bat
-	difftastic
+	diffr
 	fd
 	fzf
 	git
@@ -47,14 +47,15 @@ PACKAGES_BREW=(
 	lazydocker
 	lazygit
 	neovim
-	node
-	python@3.10
-	python@3.11
+	ollama
 	python@3.12
 	ripgrep
 	rust
+	tldr
 	tmux
-	zig
+	uv
+	zsh-autosuggestions
+	zsh-syntax-highlighting
 )
 
 install_apt=()
