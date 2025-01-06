@@ -5,7 +5,6 @@ vim.opt.breakindent = true             -- indent wrapped lines
 vim.opt.colorcolumn = "80"             -- show 80 char column
 vim.opt.completeopt = { "menuone", "noinsert", "noselect" }
 vim.opt.cursorline = true              -- show current line
-vim.opt.formatoptions:remove "o"       -- don't continue comment with o
 vim.opt.inccommand = 'split'           -- show also off-screen edits live
 vim.opt.expandtab = true               -- use spaces instead of tabs
 vim.opt.ignorecase = true              -- ignore case

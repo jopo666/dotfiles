@@ -7,6 +7,14 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     end,
 })
 
+-- Don't continue comments with with o
+vim.api.nvim_create_autocmd({ "BufRead" }, {
+    callback = function()
+        vim.opt.formatoptions:remove "o"
+    end,
+})
+
+
 -- Highlight yanked text
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
     callback = function()
