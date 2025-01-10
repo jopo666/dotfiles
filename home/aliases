@@ -26,6 +26,8 @@ alias ses=~/.local/bin/sessionizer
 alias rdr=~/.local/bin/reader
 
 # Python.
+alias pa='source .venv/bin/activate'
+alias pd='deactivate'
 alias py='python'
 alias pt='pytest --no-header'
 
