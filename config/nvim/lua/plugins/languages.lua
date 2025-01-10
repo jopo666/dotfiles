@@ -23,8 +23,11 @@ return {
                         "html",
                         "jsonls",
                         "lua_ls",
+                        "pyright",
+                        "ruff",
                         "taplo",
                         "yamlls",
+                        "zls",
                     },
                 }
             },
