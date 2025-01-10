@@ -34,14 +34,22 @@ fi
 setopt MENU_COMPLETE
 setopt AUTO_LIST
 setopt COMPLETE_IN_WORD
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions/ $fpath)
 zmodload zsh/complist
-autoload -Uz compinit; compinit
+autoload -Uz compinit;
+for dump in ~/.zcompdump(N.mh+24); do
+  compinit # Only update if older than 24 hours
+done
+compinit -C
 
 zstyle ':completion:*' menu select
 bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
+
+# Use emacs mode
+bindkey -e
 
 # Activate fzf.
 eval "$(fzf --zsh)"
@@ -53,9 +61,6 @@ bindkey "^N" history-search-forward
 # Clear screen with c-g.
 bindkey '^G' .clear-screen
 
-# Edit file with c-f.
-bindkey -s '^F' 'nvim **^I'
-
 # Change directory.
 bindkey -s '^E' 'cd **^I'
 
@@ -64,6 +69,20 @@ bindkey -s '^X^X' 'kill -9 **^I'
 
 # Allow Ctrl-z to toggle between suspend and resume
 bindkey -s "^Z" "fg\n"
+
+# Edit file with c-f.
+function edit-file {
+  local filename
+  filename=$(fd --type f | fzf --preview-window=right:70%:border-none --preview 'bat --style=numbers --color=always {}')
+  if [[ -n $filename ]]; then
+    BUFFER+="nvim $filename"
+    zle end-of-line
+  fi
+  zle redisplay
+}
+zle -N edit-file
+bindkey '^F' edit-file
+
 
 # Activate python env if one exists
 autoload -U add-zsh-hook
@@ -78,8 +97,6 @@ add-zsh-hook chpwd python_env
 
 # Plugins
 source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-bindkey '^Y' autosuggest-execute
-
+bindkey '^Y' autosuggest-accept
 source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=magenta,bold'
-
