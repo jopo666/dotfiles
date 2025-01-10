@@ -25,6 +25,11 @@ for index ({1..9}) alias "$index"="cd +${index}"; unset index
 # Aliases
 source $HOME/.aliases
 
+# Work stuff
+if [ -e "$HOME/.workrc" ]; then
+  source "$HOME/.workrc"
+fi
+
 # Completion
 setopt MENU_COMPLETE
 setopt AUTO_LIST
