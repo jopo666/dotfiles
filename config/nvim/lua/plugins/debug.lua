@@ -38,12 +38,7 @@ return {
         },
         config = function()
             local dap = require("dap")
-            local dapui = require("dapui")
             vim.fn.sign_define("DapStopped", { text = ">", texthl = "WarningMsg", linehl = "", numhl = "WarningMsg" })
-            -- Auto-open dapui
-            dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open({}) end
-            dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close({}) end
-            dap.listeners.before.event_exited["dapui_config"] = function() dapui.close({}) end
             -- Setup adapters
             dap.adapters.codelldb = {
                 type = "server",
@@ -61,21 +56,46 @@ return {
                     args = {},
                 },
             }
+            -- Close previews with q
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "dap-float",
+                callback = function()
+                    vim.api.nvim_buf_set_keymap(0, "n", "q", "<cmd>close!<cr>", { noremap = true, silent = true })
+                end
+            })
         end,
         keys = {
             { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input('Condition: ')) end, desc = "Conditional breakpoint" },
             { "<leader>db", function() require("dap").toggle_breakpoint() end,                         desc = "Toggle breakpoint" },
             { "<leader>dq", function() require("dap").list_breakpoints(true) end,                      desc = "List breakpoints" },
             { "<leader>dc", function() require("dap").continue() end,                                  desc = "Run/Continue" },
-            { "<leader>dn", function() require("dap").next() end,                                      desc = "Next" },
+            { "<leader>dn", function() require("dap").step_over() end,                                 desc = "Step over" },
             { "<leader>di", function() require("dap").step_into() end,                                 desc = "Step into" },
             { "<leader>do", function() require("dap").step_out() end,                                  desc = "Step out" },
             { "<leader>dr", function() require("dap").run_to_cursor() end,                             desc = "Run to Cursor" },
             { "<leader>dl", function() require("dap").run_last() end,                                  desc = "Run last" },
             { "<leader>dd", function() require("dap").repl.toggle() end,                               desc = "Toggle REPL" },
             { "<leader>dk", function() require("dap").terminate() end,                                 desc = "Kill" },
-            { "<leader>du", function() require("dapui").toggle({}) end,                                desc = "Toggle UI" },
             { "<leader>dv", function() require("nvim-dap-virtual-text").toggle() end,                  desc = "Toggle virtual text" },
+            { "<leader>du", function() require("dapui").toggle({}) end,                                desc = "Toggle UI" },
+            { '<leader>dL', function() require("dapui").float_element("console", {}) end,              desc = "Show console" },
+            { '<leader>de', function() require('dap.ui.widgets').hover() end,                          desc = "Evaluate" },
+            {
+                '<leader>df',
+                function()
+                    local widgets = require('dap.ui.widgets')
+                    widgets.centered_float(widgets.frames)
+                end,
+                desc = "Frames"
+            },
+            {
+                '<leader>ds',
+                function()
+                    local widgets = require('dap.ui.widgets')
+                    widgets.centered_float(widgets.scopes)
+                end,
+                desc = "Scopes"
+            },
             {
                 "<leader>dt",
                 function()
