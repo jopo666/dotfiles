@@ -16,10 +16,11 @@ PACKAGES_APT=(
 	brightnessctl
 	build-essential
 	curl
+	dunst
 	fonts-noto
 	grim
 	i3status
-	j4-dmenu-desktop
+	dmenu
 	libnotify4
 	psmisc
 	pulseaudio
@@ -43,11 +44,11 @@ PACKAGES_BREW=(
 	git
 	go
 	htop
+	hyperfine
 	jq
 	lazydocker
 	lazygit
 	neovim
-	ollama
 	python@3.12
 	ripgrep
 	rust
