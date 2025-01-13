@@ -8,3 +8,4 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Add semicolon.
 vim.keymap.set("n", ",;", "mCA;<esc>`C")
+

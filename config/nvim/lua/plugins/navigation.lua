@@ -74,13 +74,4 @@ return {
             { "<leader>fn", "<cmd>Telescope find_files cwd=~/.config/nvim<cr>", desc = "Find nvim dotfiles" },
         }
     },
-
-    -- Move between saved buffers
-    {
-        "leath-dub/snipe.nvim",
-        keys = {
-            { "<cr>", function() require("snipe").open_buffer_menu() end, desc = "Buffer menu" }
-        },
-        opts = {}
-    },
 }
