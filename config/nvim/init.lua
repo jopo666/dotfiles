@@ -3,7 +3,7 @@
 require("options")
 require("autocmds")
 require("keymaps")
-require("snippets")
+require("languages")
 
 -- Setup lazy
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -22,4 +22,4 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(
     { import = "plugins", },
     { change_detection = { notify = false }
-})
+    })

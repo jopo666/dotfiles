@@ -15,7 +15,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     end,
 })
 
-
 -- Highlight yanked text
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
     callback = function()
@@ -34,33 +33,5 @@ vim.api.nvim_create_autocmd({ "BufReadPost" }, {
 vim.api.nvim_create_autocmd({ "VimResized" }, {
     callback = function()
         vim.cmd [[ wincmd = ]]
-    end,
-})
-
--- Commit messages
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "gitcommit",
-    callback = function()
-        vim.opt_local.colorcolumn = "50,72"
-        vim.opt_local.wrap = true
-        vim.opt_local.spell = true
-    end,
-})
-
--- Text files
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "text", "plaintex", "gitcommit", "markdown" },
-    callback = function()
-        vim.opt_local.colorcolumn = "72"
-        vim.opt_local.wrap = true
-        vim.opt_local.spell = true
-    end,
-})
-
--- Python
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "*.py",
-    callback = function()
-        vim.wo.colorcolumn = "88"
     end,
 })
