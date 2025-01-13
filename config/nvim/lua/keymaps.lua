@@ -3,11 +3,15 @@ vim.keymap.set("i", "jk", "<esc>")
 
 -- Moving in insert mode
 vim.keymap.set("i", "<c-h>", "<left>", { silent = true })
-vim.keymap.set("i", "<c-j>", "<c-o>b", { silent = true })
-vim.keymap.set("i", "<c-k>", "<c-o>e<right>", { silent = true })
 vim.keymap.set("i", "<c-l>", "<right>", { silent = true })
 vim.keymap.set("i", "<c-a>", "<c-o>^", { silent = true })
 vim.keymap.set("i", "<c-e>", "<c-o>$", { silent = true })
+vim.keymap.set("i", "<c-j>", "<c-o>b", { silent = true })
+vim.keymap.set("i", "<c-k>", "<c-o>e<right>", { silent = true })
+
+-- Exit the terminal.
+vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "jk", "<C-\\><C-n>", { silent = true })
 
 -- Add undo break-points
 vim.keymap.set("i", ",", ",<c-g>u")
@@ -23,8 +27,8 @@ vim.keymap.set("c", "<c-n>", "<down>")
 -- vim.keymap.set("n", "<c-u>", "10k")
 
 -- Disable pageup/pagedown mappings.
-vim.keymap.set({ "i", "n", "v" }, "<pageup>", "<nop>")
-vim.keymap.set({ "i", "n", "v" }, "<pagedown>", "<nop>")
+vim.keymap.set({ "i", "n", "v", "t" }, "<pageup>", "<nop>")
+vim.keymap.set({ "i", "n", "v", "t" }, "<pagedown>", "<nop>")
 
 -- Don't jump to next search result
 vim.keymap.set("n", "*", "m`:keepjumps normal! *``<cr>")
@@ -45,6 +49,9 @@ vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, si
 -- Don't yank when pasting in visual mode
 vim.keymap.set("x", "p", [["_dp]])
 vim.keymap.set("x", "P", [["_dP]])
+
+-- Toggle spelling
+vim.keymap.set("n", "<leader>s", "<cmd>set spell!<cr>", { desc = "Toggle spelling" })
 
 -- Clear highlights
 vim.keymap.set("n", "<c-c>", "<cmd>nohlsearch<cr>", { desc = "Clear highlights" })
