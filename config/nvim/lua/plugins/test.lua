@@ -16,7 +16,7 @@ return {
                 adapters = {
                     require("neotest-go"),
                     require("neotest-python"),
-                    require("neotest-zig")({ dap = { adapter = "lldb", } }),
+                    require("neotest-zig")({ dap = { adapter = "codelldb", } }),
                 }
             })
         end,
