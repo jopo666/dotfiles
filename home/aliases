@@ -34,7 +34,7 @@ alias pt='pytest --no-header'
 # Zig.
 alias zb="zig build"
 alias zr="zig build run"
-alias zt="zig build test"
+alias zt="zig build test --summary=all"
 
 # Go.
 alias gb="go build"
