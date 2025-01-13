@@ -5,15 +5,12 @@ precmd() { print "" }
 
 # History.
 export HISTFILE="$HOME/.zsh_history"
-setopt APPEND_HISTORY
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
-setopt HIST_SAVE_NO_DUPS
-setopt INC_APPEND_HISTORY
-setopt SHARE_HISTORY
+setopt HIST_FIND_NO_DUPS        # Don't show duplicates in search
+setopt HIST_IGNORE_ALL_DUPS     # Remove older duplicate entries
+setopt HIST_IGNORE_SPACE        # Don't store commands starting with space
+setopt HIST_REDUCE_BLANKS       # Remove extra blanks
+setopt HIST_VERIFY              # Show command before executing from history
+setopt SHARE_HISTORY            # Share history between sessions
 
 # Directory stack.
 setopt AUTO_PUSHD
@@ -58,11 +55,12 @@ eval "$(fzf --zsh)"
 bindkey "^P" history-search-backward
 bindkey "^N" history-search-forward
 
+# Move word
+bindkey "^K" forward-word
+bindkey "^J" backward-word
+
 # Clear screen with c-g.
 bindkey '^G' .clear-screen
-
-# Change directory.
-bindkey -s '^E' 'cd **^I'
 
 # Kill processes.
 bindkey -s '^X^X' 'kill -9 **^I'
