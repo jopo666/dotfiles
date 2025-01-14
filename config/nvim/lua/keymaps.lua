@@ -9,6 +9,9 @@ vim.keymap.set("i", "<c-e>", "<c-o>$", { silent = true })
 vim.keymap.set("i", "<c-j>", "<c-o>b", { silent = true })
 vim.keymap.set("i", "<c-k>", "<c-o>e<right>", { silent = true })
 
+-- Disable c-u as I'm clumsy...
+vim.keymap.set("i", "<c-u>", "<nop>", { silent = true })
+
 -- Exit the terminal.
 vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { silent = true })
 vim.keymap.set("t", "jk", "<C-\\><C-n>", { silent = true })
