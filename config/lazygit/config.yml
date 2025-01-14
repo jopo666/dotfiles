@@ -21,6 +21,13 @@ disableStartupPopups: true
 notARepository: quit
 promptToReturnFromSubprocess: false
 
+# Show side-by-side diff
+customCommands:
+  - key: "<c-t>"
+    context: "global"
+    command: "ydiff -l"
+    subprocess: true
+
 # Keybindings
 keybinding:
   universal:
@@ -43,6 +50,7 @@ keybinding:
     executeShellCommand: <disabled>
     undo: u
     redo: U
+    openDiffTool: <disabled>
   files:
     commitChangesWithoutHook: <disabled>
     ignoreFile: <disabled>

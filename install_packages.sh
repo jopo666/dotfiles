@@ -55,6 +55,7 @@ PACKAGES_BREW=(
 	tldr
 	tmux
 	uv
+	ydiff
 	zsh-autosuggestions
 	zsh-syntax-highlighting
 )
