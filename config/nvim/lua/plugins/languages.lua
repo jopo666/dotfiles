@@ -18,11 +18,13 @@ return {
                     ensure_installed = {
                         "bashls",
                         "buf_ls",
+                        "csharp_ls",
                         "dockerls",
                         "gopls",
                         "html",
                         "jsonls",
                         "lua_ls",
+                        "powershell_es",
                         "pyright",
                         "ruff",
                         "taplo",
@@ -77,6 +79,7 @@ return {
                 "ruff",
                 "shellcheck",
                 -- Formatters.
+                "csharpier",
                 "gofumpt",
                 "goimports",
                 "prettierd",
