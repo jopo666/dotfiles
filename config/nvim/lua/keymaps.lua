@@ -69,7 +69,7 @@ vim.keymap.set("n", "<leader>r", 'yiw:%s/<c-r>"//g<left><left>', { desc = "Renam
 vim.keymap.set("v", "gs", ":sort<cr>", { desc = "Sort selection" })
 
 -- Run make
-vim.keymap.set("n", "<leader>m", ":make<cr>", { desc = "Run make" })
+vim.keymap.set("n", "<leader>b", ":make<cr>", { desc = "Run make" })
 
 -- Make file executable
 vim.keymap.set("n", "<leader>X", "<cmd>!chmod +x %<cr>", { desc = "Make file executable" })
