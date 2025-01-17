@@ -77,7 +77,7 @@ mode $powermenu  {
 }
 bindsym $alt+BackSpace mode $powermenu
 
-seat * hide_cursor 800
+seat * hide_cursor 2000
 
 input * {
     dwt enabled
