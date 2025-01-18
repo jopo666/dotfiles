@@ -21,10 +21,6 @@ else
     alias ai="ollama run llama3.2"
 fi
 
-# Shorter script names.
-alias ses=~/.local/bin/sessionizer
-alias rdr=~/.local/bin/reader
-
 # Python.
 alias pa='source .venv/bin/activate'
 alias pd='deactivate'
