@@ -21,6 +21,11 @@ export ZVM_INSTALL="$HOME/.zvm/self"
 export PATH="$PATH:$HOME/.zvm/bin"
 export PATH="$PATH:$ZVM_INSTALL/"
 
+# Cargo and rust stuff.
+if [ -e "$HOME/.cargo/env" ]; then
+    source "$HOME/.cargo/env"
+fi
+
 # Homebrew
 if [ -d /home/linuxbrew ]; then
     export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"

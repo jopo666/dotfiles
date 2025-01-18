@@ -11,6 +11,10 @@ if ! command -v ollama &>/dev/null; then
 	curl -fsSL https://ollama.com/install.sh | sh
 	exit 0
 fi
+if ! command -v cargo &>/dev/null; then
+	echo ">> Installing rust"
+	curl https://sh.rustup.rs -sSf | sh
+fi
 
 PACKAGES_APT=(
 	brightnessctl
@@ -51,7 +55,6 @@ PACKAGES_BREW=(
 	neovim
 	python@3.12
 	ripgrep
-	rust
 	tldr
 	tmux
 	uv
