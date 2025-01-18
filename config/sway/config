@@ -35,7 +35,7 @@ for_window [app_id="thunar"] floating enable
 
 workspace $ws_term
 
-bindsym $alt+Return exec $term -e tmux new -As scratch
+bindsym $alt+Return exec $term tmux attach || tmux new -s scratch
 bindsym $super+Return exec $browser
 
 bindsym $alt+shift+q kill
