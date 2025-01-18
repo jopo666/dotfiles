@@ -1,0 +1,18 @@
+{
+    "links": {
+        "prefix": "link",
+        "body": ["[${1:text}](${2:url}) ${0}"]
+    },
+    "urls": {
+        "prefix":  "url",
+        "body": ["<${1}> ${0}"]
+    },
+    "images": {
+        "prefix": "img",
+        "body": ["![${1:alt text}](${2:path}) ${0}"]
+    },
+    "code": {
+        "prefix": "code",
+        "body": ["```${1:language}", "$0", "```"]
+    }
+}

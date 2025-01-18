@@ -1,0 +1,38 @@
+{
+  "import": {
+    "prefix": "im",
+    "body": ["const ${1:std} = @import(\"${1:std}\")"]
+  },
+  "cimport": {
+    "prefix": "cim",
+    "body": ["const c = @cImport({", "    @cDefine(\"${1}\")", "});"]
+  },
+  "debug-print": {
+    "prefix": "dbg",
+    "body": ["std.debug.print(\"{any}\", .{${1}});"]
+  },
+  "debug-assert": {
+    "prefix": "ass",
+    "body": ["std.debug.assert(${1});"]
+  },
+  "for": {
+    "prefix": "for",
+    "body": ["for (0..${1}) |i| {\n    ${0}\n}"]
+  },
+  "forr": {
+    "prefix": "forr",
+    "body": ["for (${1:values}) |${2:val}| {\n    ${0}\n}"]
+  },
+  "simd": {
+    "prefix": "simd",
+    "body": ["assert(${1:data}.len > 0);\nassert(${1:data}.len % ${2:VLEN} != 0);\n\nvar cursor = ${1:data}[0..];\nwhile (true) {\n    // Process chunk.\n    const chunk: @Vector(${2:VLEN}, u8) = cursor[0..${2:VLEN}].*;\n    const result: [${2:VLEN}]u8 = chunk;\n    cursor[0..${2:VLEN}].* = result;\n    // Update cursor.\n    cursor = cursor[${2:VLEN}..];\n    if (cursor.len == 0) break;\n}"]
+  },
+  "test": {
+    "prefix": "test",
+    "body": "test \"${1}\" {\n    ${0}\n}"
+  },
+  "bench": {
+    "prefix": "bench",
+    "body": "test \"benchmark ${1}\" {\n    var timer = try std.time.Timer.start();\n    const name = \"${1}\";\n    const iterations = ${2};\n    const start = timer.lap();\n    for (0..iterations) |_| {\n        ${1}();\n    }\n    const mean_ns = (timer.lap() - start) / iterations -| 3;\n    std.debug.print(\"[BENCH] {s}: {d}ns\\n\", .{ name, mean_ns });\n}"
+  }
+}
