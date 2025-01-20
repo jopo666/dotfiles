@@ -13,8 +13,8 @@ return {
 			},
 		},
 		keys = {
-			{ "<leader>G", ":'<,'>Godbolt!<cr>", mode = "x", desc = "Godbolt" },
-			{ "<leader>G", "<cmd>Godbolt!<cr>", mode = "x", desc = "Godbolt" },
+			{ "<leader>c", ":'<,'>Godbolt!<cr>", mode = "x", desc = "Godbolt" },
+			{ "<leader>c", "<cmd>Godbolt!<cr>", mode = "n", desc = "Godbolt" },
 		},
 	},
 }
