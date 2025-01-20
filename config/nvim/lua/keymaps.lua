@@ -26,6 +26,7 @@ vim.keymap.set({ "i", "n", "v", "t" }, "<pagedown>", "<nop>")
 
 -- Exit the terminal.
 vim.keymap.set("t", "<esc>", "<C-\\><C-n>", { silent = true })
+vim.keymap.set("t", "jk", "<C-\\><C-n>", { silent = true })
 
 -- Add undo break-points
 vim.keymap.set("i", ",", ",<c-g>u")
@@ -86,20 +87,12 @@ vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Prev qf" })
 vim.keymap.set("n", "]q", "<cmd>cnext<cr>", { desc = "Next qf" })
 
 -- Yank to system clipboard.
-vim.keymap.set({ "n", "x" }, "<leader>y", '"+y', { desc = "Yank (sys)" })
-vim.keymap.set({ "n", "x" }, "<leader>Y", '"+Y', { desc = "Yank (sys)" })
-vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste (sys)" })
-vim.keymap.set({ "n", "x" }, "<leader>P", '"+P', { desc = "Paste (sys)" })
+vim.keymap.set({ "n", "x" }, "<leader>y", '"+y', { desc = "Yank (system)" })
+vim.keymap.set({ "n", "x" }, "<leader>Y", '"+Y', { desc = "Yank (system)" })
+vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste (system)" })
+vim.keymap.set({ "n", "x" }, "<leader>P", '"+P', { desc = "Paste (system)" })
 
 -- Buffer mappings
-vim.keymap.set("n", "<leader>o", function()
-	local current = vim.api.nvim_get_current_buf()
-	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-		if buf ~= current then
-			vim.api.nvim_buf_delete(buf, { force = true })
-		end
-	end
-end, { desc = "Close other buffers" })
 vim.keymap.set("n", "[B", "<cmd>bfirst<cr>", { desc = "First buffer" })
 vim.keymap.set("n", "]B", "<cmd>blast<cr>", { desc = "Last buffer" })
 vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })

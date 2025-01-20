@@ -16,7 +16,9 @@ return {
 					{ mode = "n", keys = "<leader>d", desc = "Debug..." },
 					{ mode = "n", keys = "<leader>t", desc = "Test..." },
 					{ mode = "n", keys = "<leader>h", desc = "Hunk..." },
+					{ mode = "x", keys = "<leader>h", desc = "Hunk..." },
 					{ mode = "n", keys = "<leader>a", desc = "AI..." },
+					{ mode = "x", keys = "<leader>a", desc = "AI..." },
 					{ mode = "n", keys = "gt", desc = "Toggle..." },
 				},
 			})
