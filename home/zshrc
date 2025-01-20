@@ -10,7 +10,7 @@ setopt HIST_IGNORE_ALL_DUPS     # Remove older duplicate entries
 setopt HIST_IGNORE_SPACE        # Don't store commands starting with space
 setopt HIST_REDUCE_BLANKS       # Remove extra blanks
 setopt HIST_VERIFY              # Show command before executing from history
-setopt SHARE_HISTORY            # Share history between sessions
+# setopt SHARE_HISTORY            # Share history between sessions
 
 # Directory stack.
 setopt AUTO_PUSHD
