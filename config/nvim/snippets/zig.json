@@ -1,11 +1,19 @@
 {
   "import": {
     "prefix": "im",
-    "body": ["const ${1:std} = @import(\"${1:std}\")"]
+    "body": ["const ${1:std} = @import(\"${1:std}\");"]
   },
   "cimport": {
     "prefix": "cim",
     "body": ["const c = @cImport({", "    @cDefine(\"${1}\")", "});"]
+  },
+  "struct": {
+    "prefix": "str",
+    "body": ["pub const ${1} = struct {${0}};"]
+  },
+  "switch": {
+    "prefix": "swi",
+    "body": ["switch (${1}) {\n    ${2} => {},\n    else => {}}"]
   },
   "debug-print": {
     "prefix": "dbg",
@@ -25,7 +33,7 @@
   },
   "simd": {
     "prefix": "simd",
-    "body": ["assert(${1:data}.len > 0);\nassert(${1:data}.len % ${2:VLEN} != 0);\n\nvar cursor = ${1:data}[0..];\nwhile (true) {\n    // Process chunk.\n    const chunk: @Vector(${2:VLEN}, u8) = cursor[0..${2:VLEN}].*;\n    const result: [${2:VLEN}]u8 = chunk;\n    cursor[0..${2:VLEN}].* = result;\n    // Update cursor.\n    cursor = cursor[${2:VLEN}..];\n    if (cursor.len == 0) break;\n}"]
+    "body": ["assert(${1:data}.len > 0);\nassert(${1:data}.len % ${2:VLEN} == 0);\n\nvar cursor = ${1:data}[0..];\nwhile (true) {\n    // Process chunk.\n    const chunk: @Vector(${2:VLEN}, u8) = cursor[0..${2:VLEN}].*;\n    const result: [${2:VLEN}]u8 = chunk;\n    cursor[0..${2:VLEN}].* = result;\n    // Update cursor.\n    cursor = cursor[${2:VLEN}..];\n    if (cursor.len == 0) break;\n}"]
   },
   "test": {
     "prefix": "test",
