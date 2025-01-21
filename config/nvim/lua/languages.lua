@@ -23,7 +23,8 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = "python",
 	callback = function()
 		vim.opt_local.colorcolumn = "88"
-		vim.keymap.set("n", ",f", "o# fmt: off\n# fmt: on<esc>", { buffer = true, desc = "fmt: off/on" })
+		vim.keymap.set("n", ",F", "o# fmt: off\n# fmt: on<esc>", { buffer = true, desc = "fmt: off/on" })
+		vim.keymap.set("n", ",f", 'mCF"if<esc>`C', { buffer = true, desc = "f-string" })
 		vim.keymap.set("n", ",t", "mCA # type: ignore<esc>`C", { buffer = true, desc = "type: ignore" })
 		vim.keymap.set("n", ",n", "mCA # noqa<esc>`C", { buffer = true, desc = "noqa" })
 	end,
