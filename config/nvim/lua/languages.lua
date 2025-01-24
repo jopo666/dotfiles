@@ -52,7 +52,13 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set(
 			"n",
 			",d",
-			'yiwostd.debug.print(">>> <c-r>": {any}\\n", .{<c-r>"});<esc>',
+			'mCyiwostd.debug.print(">>> <c-r>": {any}\\n", .{<c-r>"});<esc>`C',
+			{ buffer = true, desc = "debug print" }
+		)
+		vim.keymap.set(
+			"x",
+			",d",
+			'mCyostd.debug.print(">>> <c-r>": {any}\\n", .{<c-r>"});<esc>`C',
 			{ buffer = true, desc = "debug print" }
 		)
 	end,
