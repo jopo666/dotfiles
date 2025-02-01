@@ -4,24 +4,28 @@ return {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
+		cmd = "Telescope",
 		opts = {
 			defaults = {
 				sorting_strategy = "ascending",
-				layout_strategy = "bottom_pane",
+				layout_strategy = "center",
 				layout_config = {
-					height = 10,
-					preview_cutoff = 20,
-					prompt_position = "top",
+					height = 30,
+					width = 120,
 				},
 				border = true,
 				borderchars = {
-					prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
-					results = { " " },
-					preview = { " " },
+					prompt = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
+					results = { "─", "│", "─", "│", "│", "│", "┘", "└" },
+					preview = { "─", "│", "─", "│", "┌", "┐", "┘", "└" },
 				},
 				preview = false,
 				prompt_title = false,
+				prompt_prefix = " ",
 				results_title = false,
+			},
+			pickers = {
+				find_files = { layout_config = { height = 20, width = 80 } },
 			},
 		},
 		keys = {
