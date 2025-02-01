@@ -1,8 +1,6 @@
 set $alt Mod1
 set $super Mod4
 set $term foot
-# set $browser chromium
-set $browser google-chrome
 set $menu dmenu_run
 set $lock 'swaylock -f -u -i $HOME/.config/sway/lockscreen.png'
 set $screenon 'swaymsg "output * power on"'
@@ -13,7 +11,8 @@ exec swayidle -w \
     timeout 600 $screenoff resume $screenon  \
     before-sleep $lock
 exec dunst
-exec $browser
+exec chromium
+exec google-chrome
 exec $term -e tmux new -As scratch
 exec code
 exec slack
@@ -34,9 +33,6 @@ assign [class="Slack"] $ws_slack
 for_window [app_id="thunar"] floating enable
 
 workspace $ws_term
-
-bindsym $alt+Return exec $term tmux attach || tmux new -s scratch
-bindsym $super+Return exec $browser
 
 bindsym $alt+shift+q kill
 bindsym $alt+shift+f fullscreen toggle
