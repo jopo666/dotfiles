@@ -10,6 +10,7 @@ alias ll="ls --color -lhva --group-directories-first"
 alias grep="grep --color=auto -i"
 
 alias lg="lazygit"
+alias gl="ydiff -l"
 command -v bat >/dev/null && alias cat="bat --plain --plain"
 
 alias wifi="nmcli dev wifi list"
