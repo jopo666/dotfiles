@@ -16,7 +16,6 @@ return {
 				pattern = "toggleterm",
 				callback = function()
 					vim.opt_local.cursorline = false
-					vim.opt_local.laststatus = 0
 					vim.opt_local.signcolumn = "yes:1"
 				end,
 			})

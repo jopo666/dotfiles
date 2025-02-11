@@ -43,15 +43,6 @@ return {
 						["it"] = "@type.inner",
 					},
 				},
-				swap = {
-					enable = true,
-					swap_next = {
-						["]a"] = "@parameter.inner",
-					},
-					swap_previous = {
-						["[a"] = "@parameter.inner",
-					},
-				},
 				move = {
 					enable = true,
 					set_jumps = true,
