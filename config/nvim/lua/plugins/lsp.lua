@@ -29,7 +29,7 @@ return {
 					map("gr", vim.lsp.buf.references, "Show references")
 					map("gI", vim.lsp.buf.implementation, "Goto implementation")
 					map("gT", vim.lsp.buf.type_definition, "Goto type definition")
-					map("gca", vim.lsp.buf.code_action, "Code action")
+					map("gA", vim.lsp.buf.code_action, "Code action")
 					map("ge", vim.lsp.buf.rename, "Rename variable")
 					map("K", vim.lsp.buf.hover, "Hover")
 					map("gh", function()
