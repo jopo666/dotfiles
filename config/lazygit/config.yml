@@ -5,6 +5,7 @@ gui:
   showBottomLine: true
   showPanelJumps: false
   border: single
+  skipRewordInEditorWarning: false
 git:
   paging:
     useConfig: true
@@ -52,16 +53,21 @@ keybinding:
     redo: U
     openDiffTool: <disabled>
   files:
+    amendLastCommit: a
+    commitChangesWithEditor: c
+    viewStashOptions: s
+    toggleTreeView: t
+    commitChanges: <disabled>
     commitChangesWithoutHook: <disabled>
     ignoreFile: <disabled>
     stashAllChanges: <disabled>
-    viewStashOptions: s
-    toggleTreeView: t
   branches:
     createPullRequest: <disabled>
     viewPullRequestOptions: o
     copyPullRequestURL: y
   commits:
+    renameCommit: <disabled>
+    renameCommitWithEditor: r
     moveDownCommit: J
     moveUpCommit: K
     amendToCommit: a
