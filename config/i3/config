@@ -25,6 +25,7 @@ assign [class="Code"] $work
 assign [class="Slack"] $work
 for_window [class="Thunar"] floating enable
 for_window [title="scratch"] floating enable
+for_window [instance="ristretto"] floating enable
 for_window [window_role="pop-up"] floating enable
 
 bindsym Mod1+Shift+r restart

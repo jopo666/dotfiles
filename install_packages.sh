@@ -27,6 +27,7 @@ PACKAGES_APT=(
 	make
 	network-manager
 	pulseaudio
+	ristretto
 	tar
 	thunar
 	udisks2
@@ -70,6 +71,7 @@ if [ ${#install_apt[@]} -gt 0 ]; then
 	sudo apt update
 	sudo apt install "${install_apt[@]}"
 fi
+
 installed_brew=$(brew list --installed-on-request | awk '{print $1}')
 install_brew=()
 for package in "${PACKAGES_BREW[@]}"; do
