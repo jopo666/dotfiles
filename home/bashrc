@@ -3,20 +3,135 @@ if [[ ! $- == *i* ]]; then
     return
 fi
 
-source "$HOME/.environment"
-source "$HOME/.aliases"
+export PS1="\n\w $ "
+export EDITOR="nvim"
+export VISUAL="nvim"
 
 # History
+export HISTSIZE=1000
+export HISTFILESIZE=100000
+export HISTCONTROL=ignoreboth
 shopt -s histappend
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+
+# Options
+shopt -s cdspell
+shopt -s dirspell
+shopt -s checkwinsize
+shopt -s dotglob
+shopt -s nocaseglob
+shopt -s globstar
+stty -ixon # Disable XON/XOFF flow control
+
+# Colored man pages
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;36m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
+
+# Homebrew
+if [ -d /home/linuxbrew ]; then
+    export HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+    export HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+    export HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+    export PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin${PATH+:$PATH}"
+    [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}"
+    export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:${INFOPATH:-}"
+    [ -z "${XDG_DATA_DIRS-}" ] || export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:${XDG_DATA_DIRS-}"
+fi
+
+# Work stuff
+[ -e "$HOME/.workrc" ] && source "$HOME/.workrc"
+
+# Cargo and rust
+[ -e "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
+
+# Mason
+[ -d "$HOME/.local/share/nvim/mason/bin" ] && export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
+
+# Local scripts
+[ -d "$HOME/.local/bin" ] && export PATH="$PATH:$HOME/.local/bin"
 
 # FZF
 eval "$(fzf --bash)"
+export FZF_COMPLETION_OPTS="--preview-window=right:70%:border-none --preview 'bat --style=numbers --color=always {}'"
+export FZF_CTRL_T_OPTS="--preview-window=right:70%:border-none --preview 'bat --style=numbers --color=always {}'"
+export FZF_DEFAULT_OPTS="--reverse --border=none --no-separator --no-scrollbar --info=hidden"
 
-# Bindings
-bind "\C-p":history-search-backward
-bind "\C-n":history-search-forward
-bind -x '"\C-g":"clear"'
-bind '"\C-i":menu-complete'
-bind '"\e[Z":menu-complete-backward'
-bind "set show-all-if-ambiguous on"
-bind "set menu-complete-display-prefix on"
+# Extract various compressed file formats
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+        *.tar.bz2) tar xjf "$1" ;;
+        *.tar.gz) tar xzf "$1" ;;
+        *.bz2) bunzip2 "$1" ;;
+        *.rar) unrar e "$1" ;;
+        *.gz) gunzip "$1" ;;
+        *.tar) tar xf "$1" ;;
+        *.tbz2) tar xjf "$1" ;;
+        *.tgz) tar xzf "$1" ;;
+        *.zip) unzip "$1" ;;
+        *.Z) uncompress "$1" ;;
+        *.7z) 7z x "$1" ;;
+        *) echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Aliases
+alias v="nvim"
+alias vi="nvim"
+alias vd="nvim ."
+alias :q="exit"
+
+# Basics
+alias ..="cd .."
+alias ls="ls --color"
+alias l="ls --color -lhv --group-directories-first"
+alias ll="ls --color -lhva --group-directories-first"
+alias rm='rm -iv'
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias ln='ln -iv'
+
+# Programs
+alias grep="grep --color=auto -i"
+alias lg="lazygit"
+alias gl="ydiff -l"
+command -v bat >/dev/null && alias cat="bat --plain --plain"
+alias wifi="nmcli dev wifi list"
+
+# Python.
+alias pa='source .venv/bin/activate'
+alias pd='deactivate'
+alias py='python'
+alias pt='pytest --no-header'
+
+# Zig.
+alias zb="zig build"
+alias zr="zig build run"
+alias zt="zig build test --summary all"
+alias zbb="zig build benchmark --summary all"
+
+# Go.
+alias gb="go build"
+alias gr="go run"
+alias gt="go test ./..."
+alias gi="go install ./..."
+alias gc="go clean -i"
+
+# Docker.
+alias ds="docker ps -aq | xargs -r docker stop"
+alias dri="docker ps -aq | xargs -r docker rm"
+alias drv="docker volume prune -af"
+alias drs="docker system prune -af"
+
+# Run window manager
+if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+    startx >/dev/null 2>&1
+fi

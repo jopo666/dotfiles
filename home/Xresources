@@ -1,0 +1,97 @@
+XTerm*termName: xterm-256color
+
+! UTF-8 encoding
+XTerm*utf8: 1
+XTerm*locale: true
+
+! A lot of scrollback
+XTerm*saveLines: 50000
+
+! Copy and paste
+XTerm*highlightSelection: true
+XTerm*selectToClipboard: true
+XTerm*trimSelection: true
+XTerm*disallowedWindowOps: 20,21,SetXprop
+
+! Fonts
+XTerm*faceName: Hack Nerd Font
+XTerm*faceSize: 10
+XTerm*faceSize1: 8
+XTerm*faceSize2: 12
+XTerm*faceSize3: 14
+XTerm*faceSize4: 16
+
+! No bell
+XTerm*visualBell: false
+XTerm*bellIsUrgent: false
+
+! Fix alt key
+XTerm*metaSendsEscape: true
+
+! Keymaps
+XTerm*vt100.translations: #override \
+    Ctrl <Key> minus: smaller-vt-font() \n\
+    Ctrl <Key> plus: larger-vt-font() \n\
+    Ctrl <Key> 0: set-vt-font(d) \n\
+    Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key>V: insert-selection(CLIPBOARD) \n\
+    Shift Ctrl <Key> =: larger-vt-font() \n\
+    Shift Ctrl <Key> -: smaller-vt-font() \n\
+    Shift Ctrl <Key> 0: set-vt-font(d) \n\
+
+! Color theme
+XTerm*background: #262626
+XTerm*foreground: #ebdbb2
+XTerm*color0: #262628
+XTerm*color1: #CC241D
+XTerm*color2: #98971a
+XTerm*color3: #FF8F15
+XTerm*color4: #458588
+XTerm*color5: #b16286
+XTerm*color6: #689d6a
+XTerm*color7: #a89984
+XTerm*color8: #928374
+XTerm*color9: #fb4934
+XTerm*color10: #b8bb26
+XTerm*color11: #FFAF00
+XTerm*color12: #83a598
+XTerm*color13: #d3869b
+XTerm*color14: #8ec07c
+XTerm*color15: #ebdbb2
+
+! Screensaver
+XScreenSaver*mode: one
+XScreenSaver*selected: 189
+XScreenSaver*timeout: 0:00:05
+XScreenSaver*lock: True
+XScreenSaver*lockTimeout: 0:00:00
+XScreenSaver*fade: False
+XScreenSaver*unfade: False
+XScreenSaver*splash: False
+XScreenSaver*dpmsEnabled: False
+XScreenSaver*dialogTheme: custom
+XScreenSaver*dateFormat: %D %H:%M
+
+! Custom theme
+XScreenSaver*custom.Dialog.foreground: #ebdbb2
+XScreenSaver*custom.Dialog.background: #000000
+XScreenSaver*custom.Dialog.topShadowColor: #000000
+XScreenSaver*custom.Dialog.bottomShadowColor: #000000
+XScreenSaver*custom.Dialog.text.foreground: #000000
+XScreenSaver*custom.Dialog.text.background: #ebdbb2
+XScreenSaver*custom.Dialog.button.foreground: #ebdbb2
+XScreenSaver*custom.Dialog.button.background: #000000
+XScreenSaver*custom.Dialog.logo.background: #000000
+XScreenSaver*custom.Dialog.thermometer.foreground: #000000
+XScreenSaver*custom.Dialog.thermometer.background: #000000
+XScreenSaver*custom.Dialog.thermometer.width: 0
+XScreenSaver*custom.Dialog.borderColor: #000000
+XScreenSaver*custom.Dialog.borderWidth: 0
+XScreenSaver*custom.Dialog.internalPadding: 25
+XScreenSaver*custom.Dialog.headingFont: sans-serif 6
+XScreenSaver*custom.Dialog.bodyFont: sans-serif bold 10
+XScreenSaver*custom.Dialog.errorFont: sans-serif bold 12
+XScreenSaver*custom.Dialog.labelFont: sans-serif bold 9
+XScreenSaver*custom.Dialog.unameFont: sans-serif bold 8
+XScreenSaver*custom.Dialog.buttonFont: sans-serif bold 8
+XScreenSaver*custom.Dialog.dateFont: sans-serif 6

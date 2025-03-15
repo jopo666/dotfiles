@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+# Load profile
+[ -f ~/.profile ] && source ~/.profile
+
+# Load Xresources
+[ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
+
+# Set keyboard layout
+setxkbmap -layout us,fi -option grp:switch -option ctrl:nocaps
+
+# Increase key repeat
+xset r rate 250 125
+
+# Remove beeping
+xset b off
+
+# Hide cursor after 5s
+unclutter -idle 5 &
+
+# Screensaver
+xscreensaver --no-splash &
+
+# Notifications
+dunst &
+
+# Start window manager
+i3

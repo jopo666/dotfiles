@@ -6,11 +6,6 @@ if ! command -v brew &>/dev/null; then
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	exit 0
 fi
-if ! command -v ollama &>/dev/null; then
-	echo ">> Installing ollama, rerun after done"
-	curl -fsSL https://ollama.com/install.sh | sh
-	exit 0
-fi
 if ! command -v cargo &>/dev/null; then
 	echo ">> Installing rust"
 	curl https://sh.rustup.rs -sSf | sh
@@ -18,34 +13,36 @@ fi
 
 PACKAGES_APT=(
 	brightnessctl
+	bsdutils
 	build-essential
+	chromium
 	curl
-	dunst
-	fonts-noto
-	grim
-	i3status
 	dmenu
-	libnotify4
-	psmisc
+	dunst
+	fonts-hack
+	fonts-noto
+	git
+	i3
+	i3status
+	make
+	network-manager
 	pulseaudio
-	pulsemixer
-	ristretto
-	slurp
-	sway
-	swayidle
-	swaylock
 	tar
 	thunar
 	udisks2
-	wl-clipboard
+	unclutter
+	xclip
+	xinit
+	xscreensaver
+	xterm
 	zathura
 )
+
 PACKAGES_BREW=(
 	bat
 	diffr
 	fd
 	fzf
-	git
 	go
 	htop
 	hyperfine
@@ -59,8 +56,6 @@ PACKAGES_BREW=(
 	tmux
 	uv
 	ydiff
-	zsh-autosuggestions
-	zsh-syntax-highlighting
 )
 
 install_apt=()

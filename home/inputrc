@@ -1,0 +1,35 @@
+# Ignore case during tab completion
+set completion-ignore-case on
+
+# Show all completions after first tab
+set show-all-if-ambiguous on
+
+# Color the common prefix in completions
+set colored-completion-prefix on
+
+# Color the common prefix in menu-complete
+set menu-complete-display-prefix on
+
+# Show extra file information when completing
+set visible-stats on
+
+# Be more intelligent when autocompleting
+set skip-completed-text on
+
+# Allow UTF-8 input and output
+set input-meta on
+set output-meta on
+set convert-meta off
+
+# Bindings
+"\C-s": backward-word
+"\C-f": forward-word
+"\eu": undo
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+"\C-w": backward-kill-word
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-g": clear-screen
+"\C-i": menu-complete
+"\e[Z": menu-complete-backward
