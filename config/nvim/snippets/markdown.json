@@ -3,7 +3,7 @@
         "prefix": "link",
         "body": ["[${1:text}](${2:url}) ${0}"]
     },
-    "urls": {
+    "url": {
         "prefix":  "url",
         "body": ["<${1}> ${0}"]
     },

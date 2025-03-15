@@ -1,31 +1,27 @@
 {
     "import": {
-        "prefix": "imp",
+        "prefix": "import",
         "body": "import \"${1:package}\""
     },
     "struct": {
-        "prefix": "str",
+        "prefix": "struct",
         "body": "type ${1:name} struct {\n\t$0\n}"
     },
     "function": {
-        "prefix": "fun",
+        "prefix": "func",
         "body": "func $1($2) $3 {\n\t$0\n}"
     },
     "switch": {
-        "prefix": "swi",
+        "prefix": "switc",
         "body": "switch ${1:expression} {\ncase ${2:condition}:\n\t$0\n}"
     },
     "select": {
-        "prefix": "sel",
+        "prefix": "select",
         "body": "select {\ncase ${1:condition}:\n\t$0\n}"
     },
     "interface": {
-        "prefix": "int",
+        "prefix": "interface",
         "body": "type ${1:name} interface {\n\t$0\n}"
-    },
-    "for": {
-        "prefix": "for",
-        "body": "for ${1}{\n\t$0\n}"
     },
     "for n": {
         "prefix": "fori",
@@ -39,28 +35,20 @@
         "prefix": "map",
         "body": "map[${1:type}]${2:type}"
     },
-    "if statement": {
-        "prefix": "if",
-        "body": "if ${1:condition} {\n\t$0\n}"
-    },
-    "if else statement": {
-        "prefix": "ife",
-        "body": "if ${1:condition} {\n\t$2\n} else {\n\t$0\n}"
-    },
     "if err != nil": {
-        "prefix": "ie",
+        "prefix": "iferr",
         "body": "if err != nil {\n\treturn ${1:nil}, ${2:err}\n}"
     },
     "if key in a map": {
-        "prefix": "im",
+        "prefix": "inmap",
         "body": "if ${1:value}, ok := ${2:map}[${3:key}]; ok {\n\t$4\n}"
     },
     "fmt.Println": {
-        "prefix": "fmtl",
+        "prefix": "print",
         "body": "fmt.Println(\"$1\")"
     },
     "fmt.Printf": {
-        "prefix": "fmtf",
+        "prefix": "printf",
         "body": "fmt.Printf(\"$1\", ${2:var})"
     },
     "log.Println": {

@@ -1,0 +1,55 @@
+{
+    "main": {
+        "prefix": "main",
+        "body": ["if __name__ == \"__main__\":\n    main()"]
+    },
+    "match": {
+        "prefix": "match",
+        "body": [
+            "match ${1:expression}:",
+            "\tcase ${2:pattern}:",
+            "\t\t${3:pass}"
+        ]
+    },
+    "for": {
+        "prefix": "for",
+        "body": ["for ${2:value} in ${1:iterable}:", "\t${3:pass}"]
+    },
+    "for enumerate": {
+        "prefix": "fore",
+        "body": ["for i, ${2:value} in enumerate(${1:iterable}):", "\t${3:pass}"]
+    },
+    "function": {
+        "prefix": "def",
+        "body": ["def ${1:fname}($2) -> ${3:None}:", "\t${4:pass}"]
+    },
+    "class": {
+        "prefix": "class",
+        "body": [
+            "class ${1:ClassName}:",
+            "\tdef __init__(self${2}) -> None:",
+            "\t\tpass"
+        ]
+    },
+    "Method": {
+        "prefix": "defm",
+        "body": ["def ${1:mname}(self$2) -> ${3:None}:", "\t${4:pass}"]
+    },
+    "property": {
+        "prefix": "property",
+        "body": ["@property","def ${1:mname}(self$2) -> ${3:None}:", "\t${4:pass}"]
+    },
+    "classmethod": {
+        "prefix": "classmethod",
+        "body": ["@classmethod","def ${1:mname}(cls$2) -> ${3:None}:", "\t${4:pass}"]
+    },
+    "try/except": {
+        "prefix": "try",
+        "body": [
+            "try:",
+            "\t${1:pass}",
+            "except ${2:Exception} as ${3:err}:",
+            "\traise $3"
+        ]
+   }
+}
