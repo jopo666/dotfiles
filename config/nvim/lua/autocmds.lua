@@ -2,7 +2,12 @@
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
 	callback = function()
 		if vim.bo.filetype ~= "proto" then
+			-- Save cursor position
+			local cursor_pos = vim.api.nvim_win_get_cursor(0)
+			-- Remove trailing whitespace
 			vim.cmd([[ %s/\s\+$//e ]])
+			-- Restore cursor position
+			vim.api.nvim_win_set_cursor(0, cursor_pos)
 		end
 	end,
 })
