@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -eu
+
+USAGE="Usage: itry [packages...]"
+
+if [ $# -eq 0 ] || { [ "$1" = "-h" ] || [ "$1" = "--help" ]; }; then
+    echo "$USAGE"
+    exit 0
+fi
+
+PACKAGES=""
+for arg in "$@"; do
+    PACKAGES="$PACKAGES --with $arg"
+done
+
+uvx ${PACKAGES# } ipython
