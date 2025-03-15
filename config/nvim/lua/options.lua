@@ -2,6 +2,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 vim.cmd([[ cabbrev W w ]])
+vim.cmd([[ cabbrev Waq waq ]])
 
 vim.opt.breakindent = true -- indent wrapped lines
 vim.opt.colorcolumn = "80" -- show 80 char column

@@ -23,8 +23,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = "python",
 	callback = function()
 		vim.opt_local.colorcolumn = "88"
-		vim.keymap.set("n", ",d", 'mCyiwoprint(f">>> <c-r>"={<c-r>"}")<esc>`C', { buffer = true, desc = "debug print" })
-		vim.keymap.set("x", ",d", 'mCyoprint(f">>> <c-r>"={<c-r>"}")<esc>`C', { buffer = true, desc = "debug print" })
 		vim.keymap.set("n", ",F", "o# fmt: off\n# fmt: on<esc>", { buffer = true, desc = "fmt: off/on" })
 		vim.keymap.set("n", ",f", 'mCF"if<esc>`C', { buffer = true, desc = "f-string" })
 		vim.keymap.set("n", ",t", "mCA # type: ignore<esc>`C", { buffer = true, desc = "type: ignore" })
@@ -42,26 +40,6 @@ vim.api.nvim_create_autocmd("FileType", {
 			",f",
 			"o-- stylua: ignore start\n-- stylua: ignore end<esc>",
 			{ buffer = true, desc = "fmt: off/on" }
-		)
-	end,
-})
-
--- Zig
-vim.api.nvim_create_autocmd("FileType", {
-	pattern = "zig",
-	callback = function()
-		vim.keymap.set("n", ",;", "mCA;<esc>`C", { buffer = true, desc = "add semicolon" })
-		vim.keymap.set(
-			"n",
-			",d",
-			'mCyiwostd.debug.print(">>> <c-r>": {any}\\n", .{<c-r>"});<esc>`C',
-			{ buffer = true, desc = "debug print" }
-		)
-		vim.keymap.set(
-			"x",
-			",d",
-			'mCyostd.debug.print(">>> <c-r>": {any}\\n", .{<c-r>"});<esc>`C',
-			{ buffer = true, desc = "debug print" }
 		)
 	end,
 })

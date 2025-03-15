@@ -4,23 +4,15 @@ vim.keymap.set("i", "jk", "<esc>")
 -- Moving in insert mode
 vim.keymap.set("i", "<c-h>", "<left>")
 vim.keymap.set("i", "<c-l>", "<right>")
-vim.keymap.set({ "i", "s" }, "<c-j>", function()
-	if vim.snippet.active({ direction = -1 }) then
-		return "<cmd>lua vim.snippet.jump(-1)<cr>"
-	else
-		return "<c-o>b"
-	end
-end, { expr = true })
-vim.keymap.set({ "i", "s" }, "<c-k>", function()
-	if vim.snippet.active({ direction = 1 }) then
-		return "<cmd>lua vim.snippet.jump(1)<cr>"
-	else
-		return "<c-o>e<right>"
-	end
-end, { expr = true })
+vim.keymap.set({ "i", "s" }, "<c-j>", "<c-o>b")
+vim.keymap.set({ "i", "s" }, "<c-k>", "<c-o>w")
 
 -- I'm clumsy...
+vim.keymap.set("c", "E", "<nop>", { silent = true })
+vim.keymap.set("c", "Q", "<nop>", { silent = true })
 vim.keymap.set("i", "<c-u>", "<nop>", { silent = true })
+vim.keymap.set({ "i", "n", "v", "t" }, "<home>", "<nop>")
+vim.keymap.set({ "i", "n", "v", "t" }, "<end>", "<nop>")
 vim.keymap.set({ "i", "n", "v", "t" }, "<pageup>", "<nop>")
 vim.keymap.set({ "i", "n", "v", "t" }, "<pagedown>", "<nop>")
 
@@ -45,6 +37,10 @@ vim.keymap.set("v", "<", "<gv")
 vim.keymap.set({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 vim.keymap.set({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
+-- Move text
+vim.keymap.set("v", "<down>", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "<up>", ":m '<-2<CR>gv=gv")
+
 -- Don't yank when pasting in visual mode
 vim.keymap.set("x", "p", [["_dp]])
 vim.keymap.set("x", "P", [["_dP]])
@@ -57,14 +53,16 @@ vim.keymap.set("n", "gtl", "<cmd>set list!<cr>", { desc = "Toggle list" })
 -- Clear highlights
 vim.keymap.set("n", "<c-c>", "<cmd>nohlsearch<cr>", { desc = "Clear highlights" })
 
--- Switch to last buffer.
-vim.keymap.set("n", ",,", "<c-^>", { desc = "Alternative file" })
-
 -- Rename current word
-vim.keymap.set("n", "<leader>r", 'yiw:%s/<c-r>"//g<left><left>', { desc = "Rename word" })
+vim.keymap.set("n", "<leader>r", '"xyiw:%s/<c-r>x//g<left><left>', { desc = "Rename cword" })
 
--- Sort selection
-vim.keymap.set("v", "gs", ":sort<cr>", { desc = "Sort selection" })
+-- Grep motion/selection
+vim.keymap.set("n", "gs", function()
+	vim.cmd('normal! "xyiw')
+	vim.cmd('silent grep! "\\<' .. vim.fn.getreg("x") .. '\\>" **/*')
+	vim.cmd("copen")
+	vim.cmd("wincmd p")
+end, { desc = "Grep cword", silent = true, expr = false })
 
 -- Run make
 vim.keymap.set("n", "<leader>m", ":make<cr>", { desc = "Run make" })
@@ -73,13 +71,14 @@ vim.keymap.set("n", "<leader>m", ":make<cr>", { desc = "Run make" })
 vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<cr>", { desc = "chmod +x" })
 
 -- Quickfix mappings.
-vim.keymap.set("n", "<leader>q", function()
+vim.keymap.set("n", "gtq", function()
 	for _, win in pairs(vim.fn.getwininfo()) do
 		if win.quickfix == 1 then
 			return vim.cmd("cclose")
 		end
 	end
 	vim.cmd("copen")
+	vim.cmd("wincmd p")
 end, { desc = "Toggle quickfix" })
 vim.keymap.set("n", "[Q", "<cmd>cfirst<cr>", { desc = "First qf" })
 vim.keymap.set("n", "]Q", "<cmd>clast<cr>", { desc = "Last qf" })
@@ -105,7 +104,7 @@ vim.keymap.set("n", "[t", "<cmd>tabprevious<cr>", { desc = "Prev tab" })
 vim.keymap.set("n", "]t", "<cmd>tabnext<cr>", { desc = "Next tab" })
 
 -- Add semicolon.
-vim.keymap.set("n", ",;", "mCA;<esc>`C", { desc = "Add semicolon" })
+vim.keymap.set("n", "<leader>;", "mCA;<esc>`C", { desc = "Add semicolon" })
 
 -- Diagnostic mappings
 -- stylua: ignore start

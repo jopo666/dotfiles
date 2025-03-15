@@ -2,8 +2,8 @@ return {
 	"echasnovski/mini.align",
 	opts = {
 		mappings = {
-			start = "",
-			start_with_preview = "gA",
+			start = "ga",
+			start_with_preview = "gap",
 		},
 	},
 }
