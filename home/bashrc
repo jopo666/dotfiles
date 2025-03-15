@@ -94,10 +94,6 @@ alias ..="cd .."
 alias ls="ls --color"
 alias l="ls --color -lhv --group-directories-first"
 alias ll="ls --color -lhva --group-directories-first"
-alias rm='rm -iv'
-alias cp='cp -iv'
-alias mv='mv -iv'
-alias ln='ln -iv'
 
 # Programs
 alias grep="grep --color=auto -i"
