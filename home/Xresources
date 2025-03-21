@@ -20,6 +20,8 @@ XTerm*faceSize1: 8
 XTerm*faceSize2: 12
 XTerm*faceSize3: 14
 XTerm*faceSize4: 16
+XTerm*faceSize5: 18
+XTerm*faceSize6: 20
 
 ! No bell
 XTerm*visualBell: false
@@ -59,26 +61,13 @@ XTerm*color13: #d3869b
 XTerm*color14: #8ec07c
 XTerm*color15: #ebdbb2
 
-! Screensaver
-XScreenSaver*mode: one
-XScreenSaver*selected: 189
-XScreenSaver*timeout: 0:00:05
-XScreenSaver*lock: True
-XScreenSaver*lockTimeout: 0:00:00
-XScreenSaver*fade: False
-XScreenSaver*unfade: False
-XScreenSaver*splash: False
-XScreenSaver*dpmsEnabled: False
-XScreenSaver*dialogTheme: custom
-XScreenSaver*dateFormat: %D %H:%M
-
-! Custom theme
+! Custom screensaver dialog theme
 XScreenSaver*custom.Dialog.foreground: #ebdbb2
 XScreenSaver*custom.Dialog.background: #000000
 XScreenSaver*custom.Dialog.topShadowColor: #000000
 XScreenSaver*custom.Dialog.bottomShadowColor: #000000
 XScreenSaver*custom.Dialog.text.foreground: #000000
-XScreenSaver*custom.Dialog.text.background: #ebdbb2
+XScreenSaver*custom.Dialog.text.background: #ffffff
 XScreenSaver*custom.Dialog.button.foreground: #ebdbb2
 XScreenSaver*custom.Dialog.button.background: #000000
 XScreenSaver*custom.Dialog.logo.background: #000000

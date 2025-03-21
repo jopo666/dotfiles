@@ -3,7 +3,8 @@ if [[ ! $- == *i* ]]; then
     return
 fi
 
-export PS1="\n\w $ "
+export PS1="\w $ "
+PROMPT_COMMAND="echo; $PROMPT_COMMAND"
 export EDITOR="nvim"
 export VISUAL="nvim"
 
@@ -60,6 +61,22 @@ eval "$(fzf --bash)"
 export FZF_COMPLETION_OPTS="--preview-window=right:70%:border-none --preview 'bat --style=numbers --color=always {}'"
 export FZF_CTRL_T_OPTS="--preview-window=right:70%:border-none --preview 'bat --style=numbers --color=always {}'"
 export FZF_DEFAULT_OPTS="--reverse --border=none --no-separator --no-scrollbar --info=hidden"
+
+__find_file() {
+    if [[ -z "${READLINE_LINE}" ]]; then
+        # Line is empty, use nvim prefix
+        local selected
+        selected=$(fd --type file | fzf --preview-window=right:70%:border-none --preview 'bat --style=numbers --color=always {}')
+        if [[ -n "$selected" ]]; then
+            READLINE_LINE="nvim $selected"
+            READLINE_POINT=${#READLINE_LINE}
+        fi
+    else
+        # Line is not empty, use standard fzf-file-widget
+        fzf-file-widget
+    fi
+}
+bind -x '"\C-f": __find_file'
 
 # Extract various compressed file formats
 extract() {
@@ -126,8 +143,3 @@ alias ds="docker ps -aq | xargs -r docker stop"
 alias dri="docker ps -aq | xargs -r docker rm"
 alias drv="docker volume prune -af"
 alias drs="docker system prune -af"
-
-# Run window manager
-if [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-    startx >/dev/null 2>&1
-fi

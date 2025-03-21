@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 
 # Load profile
-[ -f ~/.profile ] && source ~/.profile
+[ -f "$HOME/.profile" ] && source "$HOME/.profile"
 
 # Load Xresources
-[ -f ~/.Xresources ] && xrdb -merge ~/.Xresources
+[ -f "$HOME/.Xresources" ] && xrdb -merge "$HOME/.Xresources"
 
 # Set keyboard layout
 setxkbmap -layout us,fi -option grp:switch -option ctrl:nocaps

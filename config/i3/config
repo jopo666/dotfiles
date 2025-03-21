@@ -6,7 +6,6 @@ default_border none
 
 # Start programs
 exec --no-startup-id dex --autostart --environment i3
-exec --no-startup-id xss-lock --ignore-sleep -- xscreensaver-command -lock
 exec --no-startup-id xterm -T terminal -e tmux new -As scratch
 exec --no-startup-id chromium
 exec --no-startup-id slack
@@ -76,14 +75,18 @@ mode "$launcher" {
     bindsym Return mode "default"
     bindsym BackSpace mode "default"
 }
-set $powermenu [l]ock [e]xit [p]oweroff [r]eboot [s]uspend
+
+# Powermenu
+set $powermenu [l]ock [e]xit [p]oweroff [r]eboot [s]uspend [m]onitor [d]isplay
 bindsym Mod1+BackSpace mode "$powermenu"
 mode "$powermenu" {
     bindsym l exec --no-startup-id xscreensaver-command -lock, mode "default"
-    bindsym e exec --no-startup-id i3msg exit, mode "default"
+    bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym p exec --no-startup-id systemctl poweroff, mode "default"
     bindsym s exec --no-startup-id systemctl suspend, mode "default"
+    bindsym d exec --no-startup-id xrandr --output eDP-1 --auto --output DP-1 --off, mode "default"
+    bindsym m exec --no-startup-id xrandr --output DP-1 --auto --output eDP-1 --off, mode "default"
     bindsym Escape mode "default"
     bindsym Return mode "default"
     bindsym BackSpace mode "default"

@@ -22,8 +22,8 @@ set output-meta on
 set convert-meta off
 
 # Bindings
-"\C-s": backward-word
-"\C-f": forward-word
+"\C-j": backward-word
+"\C-k": forward-word
 "\eu": undo
 "\C-p": history-search-backward
 "\C-n": history-search-forward

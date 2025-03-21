@@ -13,7 +13,6 @@ fi
 
 PACKAGES_APT=(
 	brightnessctl
-	bsdutils
 	build-essential
 	chromium
 	curl
@@ -28,6 +27,7 @@ PACKAGES_APT=(
 	network-manager
 	pulseaudio
 	ristretto
+	scrot
 	tar
 	thunar
 	udisks2
