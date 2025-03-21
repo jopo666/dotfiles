@@ -3,10 +3,10 @@ return {
 	opts = {
 		keymaps = {
 			normal = {
-				plain_below = "gP",
+				plain_below = "",
 				plain_above = "",
 				variable_below = "gp",
-				variable_above = "",
+				variable_above = "gP",
 				variable_below_alwaysprompt = "",
 				variable_above_alwaysprompt = "",
 				textobj_below = "",
@@ -30,6 +30,7 @@ return {
 		},
 		move_to_debugline = false,
 		display_counter = false,
+		display_location = false,
 		highlight_line = true,
 		print_tag = "[DEBUG]",
 	},

@@ -58,7 +58,7 @@ keybinding:
     viewStashOptions: s
     toggleTreeView: t
     commitChanges: <disabled>
-    commitChangesWithoutHook: <disabled>
+    commitChangesWithoutHook: C
     ignoreFile: <disabled>
     stashAllChanges: <disabled>
   branches:
