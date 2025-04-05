@@ -17,11 +17,12 @@ XTerm*disallowedWindowOps: 20,21,SetXprop
 XTerm*faceName: Hack Nerd Font
 XTerm*faceSize: 10
 XTerm*faceSize1: 8
-XTerm*faceSize2: 12
-XTerm*faceSize3: 14
-XTerm*faceSize4: 16
-XTerm*faceSize5: 18
-XTerm*faceSize6: 20
+XTerm*faceSize2: 10
+XTerm*faceSize3: 12
+XTerm*faceSize4: 14
+XTerm*faceSize5: 16
+XTerm*faceSize6: 18
+XTerm*faceSize7: 20
 
 ! No bell
 XTerm*visualBell: false
