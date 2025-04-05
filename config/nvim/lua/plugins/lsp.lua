@@ -8,6 +8,7 @@ return {
 			for server_name, opts in pairs({
 				["asm_lsp"] = {},
 				["buf_ls"] = {},
+				["csharp_ls"] = {},
 				["dockerls"] = {},
 				["gopls"] = {},
 				["lua_ls"] = {},

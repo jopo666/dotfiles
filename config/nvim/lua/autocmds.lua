@@ -42,3 +42,12 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
 		vim.cmd([[ wincmd = ]])
 	end,
 })
+
+-- Remove autoindent for python files
+vim.api.nvim_create_autocmd({ "FileType" }, {
+	group = vim.api.nvim_create_augroup("FormatOptions", { clear = true }),
+	pattern = { "python" },
+	callback = function()
+		vim.opt_local.autoindent = false
+	end,
+})
