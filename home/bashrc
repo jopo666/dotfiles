@@ -143,3 +143,6 @@ alias ds="docker ps -aq | xargs -r docker stop"
 alias dri="docker ps -aq | xargs -r docker rm"
 alias drv="docker volume prune -af"
 alias drs="docker system prune -af"
+
+# Add this ALSO here as something overrides the switch option
+setxkbmap -layout us,fi -option grp:switch -option ctrl:nocaps
