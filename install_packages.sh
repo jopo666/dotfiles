@@ -35,6 +35,7 @@ PACKAGES_APT=(
 	xclip
 	xinit
 	xscreensaver
+	xscreensaver-screensaver-bsod
 	xterm
 	zathura
 )
