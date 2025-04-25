@@ -36,5 +36,5 @@ battery all {
     last_full_capacity = true
 }
 tztime local {
-    format = "%D %H:%M "
+    format = "%d/%m/%Y %H:%M "
 }
