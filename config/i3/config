@@ -1,5 +1,5 @@
 # Settings
-font pango:Hack Nerd Font 8
+font pango:Hack Nerd Font 10
 floating_modifier Mod1
 hide_edge_borders smart_no_gaps
 default_border none
