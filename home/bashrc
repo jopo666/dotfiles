@@ -50,6 +50,10 @@ fi
 # Cargo and rust
 [ -e "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
+# Zig version manager
+[ -d "$HOME/.zvm/self/" ] && export PATH="$PATH:$HOME/.zvm/self/"
+[ -d "$HOME/.zvm/bin/" ] && export PATH="$PATH:$HOME/.zvm/bin/"
+
 # Mason
 [ -d "$HOME/.local/share/nvim/mason/bin" ] && export PATH="$PATH:$HOME/.local/share/nvim/mason/bin"
 
