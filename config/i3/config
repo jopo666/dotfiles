@@ -80,7 +80,7 @@ mode "$launcher" {
 set $powermenu [l]ock [e]xit [p]oweroff [r]eboot [s]uspend [m]onitor [d]isplay
 bindsym Mod1+BackSpace mode "$powermenu"
 mode "$powermenu" {
-    bindsym l exec --no-startup-id xscreensaver-command -lock, mode "default"
+    bindsym l exec --no-startup-id i3lock -c 282828 -u, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym p exec --no-startup-id systemctl poweroff, mode "default"

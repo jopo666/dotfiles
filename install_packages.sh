@@ -34,8 +34,7 @@ PACKAGES_APT=(
 	unclutter
 	xclip
 	xinit
-	xscreensaver
-	xscreensaver-screensaver-bsod
+	xss-lock
 	xterm
 	zathura
 )

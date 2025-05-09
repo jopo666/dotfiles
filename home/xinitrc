@@ -18,8 +18,8 @@ xset b off
 # Hide cursor after 5s
 unclutter -idle 5 &
 
-# Screensaver
-xscreensaver --no-splash &
+# Screen locker
+xss-lock --transfer-sleep-lock -- '3lock -c 282828 -u' --nofork &
 
 # Notifications
 dunst &
