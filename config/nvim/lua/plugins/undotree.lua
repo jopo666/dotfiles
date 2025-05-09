@@ -4,6 +4,6 @@ return {
 		config = function()
 			vim.cmd([[ let g:undotree_DiffAutoOpen = 0 ]])
 		end,
-		keys = { { "<leader>u", "gtu", desc = "Toggle undotree" } },
+		keys = { { "gtu", "<cmd>UndotreeToggle<cr>", desc = "Toggle undotree" } },
 	},
 }
