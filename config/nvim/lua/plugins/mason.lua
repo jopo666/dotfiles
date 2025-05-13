@@ -1,7 +1,7 @@
 return {
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		cmd = { "Mason", "MasonInstallAll" },
+		cmd = { "Mason", "MasonToolsInstall" },
 		dependencies = {
 			{ "williamboman/mason.nvim", opts = {} },
 		},
@@ -10,7 +10,6 @@ return {
 			run_on_start = false,
 			ensure_installed = {
 				-- Language servers
-				"asm-lsp",
 				"buf-language-server",
 				"dockerfile-language-server",
 				"gopls",
