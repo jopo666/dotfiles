@@ -6,15 +6,10 @@ if ! command -v brew &>/dev/null; then
 	/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 	exit 0
 fi
-if ! command -v cargo &>/dev/null; then
-	echo ">> Installing rust"
-	curl https://sh.rustup.rs -sSf | sh
-fi
 
 PACKAGES_APT=(
 	brightnessctl
 	build-essential
-	chromium
 	curl
 	dmenu
 	dunst
@@ -44,9 +39,7 @@ PACKAGES_BREW=(
 	diffr
 	fd
 	fzf
-	go
 	htop
-	hyperfine
 	jq
 	lazydocker
 	lazygit
