@@ -7,6 +7,17 @@ if ! command -v brew &>/dev/null; then
 	exit 0
 fi
 
+if ! command -v uv &>/dev/null; then
+	echo ">> Installing uv, rerun after done"
+	curl -LsSf https://astral.sh/uv/install.sh | sh
+	exit 0
+fi
+
+if ! command -v zvm &>/dev/null; then
+	echo ">> Installing zvm"
+	curl https://raw.githubusercontent.com/tristanisham/zvm/master/install.sh | bash
+fi
+
 PACKAGES_APT=(
 	brightnessctl
 	build-essential
@@ -46,11 +57,19 @@ PACKAGES_BREW=(
 	neovim
 	python@3.12
 	ripgrep
-	tldr
 	tmux
 	uv
 	ydiff
 )
+
+PACKAGES_UV=(
+	autorandr
+	tldr
+)
+
+for package in "${PACKAGES_UV[@]}"; do
+	uv tool install $package
+done
 
 install_apt=()
 for package in "${PACKAGES_APT[@]}"; do
