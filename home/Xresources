@@ -24,6 +24,9 @@ XTerm*faceSize5: 16
 XTerm*faceSize6: 18
 XTerm*faceSize7: 20
 
+! Scaling
+Xft.dpi: 180
+
 ! No bell
 XTerm*visualBell: false
 XTerm*bellIsUrgent: false
