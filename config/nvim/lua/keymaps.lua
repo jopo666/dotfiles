@@ -80,40 +80,15 @@ vim.keymap.set("n", "gtq", function()
 	vim.cmd("copen")
 	vim.cmd("wincmd p")
 end, { desc = "Toggle quickfix" })
-vim.keymap.set("n", "[Q", "<cmd>cfirst<cr>", { desc = "First qf" })
-vim.keymap.set("n", "]Q", "<cmd>clast<cr>", { desc = "Last qf" })
-vim.keymap.set("n", "[q", "<cmd>cprev<cr>", { desc = "Prev qf" })
-vim.keymap.set("n", "]q", "<cmd>cnext<cr>", { desc = "Next qf" })
 
 -- Yank to system clipboard.
 vim.keymap.set({ "n", "x" }, "<leader>y", '"+y', { desc = "Yank (system)" })
-vim.keymap.set({ "n", "x" }, "<leader>Y", '"+Y', { desc = "Yank (system)" })
+vim.keymap.set({ "n", "x" }, "<leader>Y", '"+y$', { desc = "Yank (system)" })
 vim.keymap.set({ "n", "x" }, "<leader>p", '"+p', { desc = "Paste (system)" })
 vim.keymap.set({ "n", "x" }, "<leader>P", '"+P', { desc = "Paste (system)" })
-
--- Buffer mappings
-vim.keymap.set("n", "[B", "<cmd>bfirst<cr>", { desc = "First buffer" })
-vim.keymap.set("n", "]B", "<cmd>blast<cr>", { desc = "Last buffer" })
-vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
-vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 -- Tab mappings
 vim.keymap.set("n", "[T", "<cmd>tabfirst<cr>", { desc = "First tab" })
 vim.keymap.set("n", "]T", "<cmd>tablast<cr>", { desc = "Last tab" })
 vim.keymap.set("n", "[t", "<cmd>tabprevious<cr>", { desc = "Prev tab" })
 vim.keymap.set("n", "]t", "<cmd>tabnext<cr>", { desc = "Next tab" })
-
--- Add semicolon.
-vim.keymap.set("n", "<leader>;", "mCA;<esc>`C", { desc = "Add semicolon" })
-
--- Diagnostic mappings
--- stylua: ignore start
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Open diagnostic" })
-vim.keymap.set("n", "<leader>w", vim.diagnostic.setqflist, { desc = "Quickfix errors" })
-vim.keymap.set("n", "]d", function() vim.diagnostic.goto_next() end, { desc = "Next diagnostic" })
-vim.keymap.set("n", "[d", function() vim.diagnostic.goto_prev() end, { desc = "Prev diagnostic" })
-vim.keymap.set("n", "]e", function() vim.diagnostic.goto_next({ severity = "ERROR" }) end, { desc = "Next error" })
-vim.keymap.set("n", "[e", function() vim.diagnostic.goto_prev({ severity = "ERROR" }) end, { desc = "Prev error" })
-vim.keymap.set("n", "]w", function() vim.diagnostic.goto_next({ severity = "WARN" }) end, { desc = "Next warning" })
-vim.keymap.set("n", "[w", function() vim.diagnostic.goto_prev({ severity = "WARN" }) end, { desc = "Prev warning" })
--- stylua: ignore end
